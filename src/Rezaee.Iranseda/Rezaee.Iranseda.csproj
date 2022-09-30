@@ -1,0 +1,25 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.1</TargetFramework>
+    <Nullable>enable</Nullable>
+    <Authors>alireza-rezaee</Authors>
+    <Copyright>Copyright © 2022 Alireza Rezaee</Copyright>
+    <Description>A dotnet library for cataloguing and downloading from the national radio archive of Islamic Republic of Iran Broadcasting (IRIB).</Description>
+    <PackageTags>audio radio crawler data downloader speech persian iran irib iranseda</PackageTags>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <PackageLicenseFile>LICENSE</PackageLicenseFile>
+    <PackageRequireLicenseAcceptance>True</PackageRequireLicenseAcceptance>
+    <RepositoryType>git</RepositoryType>
+    <RepositoryUrl>https://github.com/alireza-rezaee/iranseda</RepositoryUrl>
+    <Version></Version>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="HtmlAgilityPack" Version="1.11.46" />
+    <PackageReference Include="System.Text.Json" Version="6.0.6" />
+    <None Include="LICENSE" Pack="true" PackagePath="" />
+    <None Include="README.md" Pack="true" PackagePath="" />
+  </ItemGroup>
+
+</Project>
