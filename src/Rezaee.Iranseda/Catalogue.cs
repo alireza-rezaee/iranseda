@@ -291,7 +291,7 @@ namespace Rezaee.Iranseda
         /// <summary>
         /// This will save the current <see cref="Catalogue"/> as a file locally.
         /// </summary>
-        /// <param name="path">The full name of the file to save this catalog to.</param>
+        /// <param name="path">The full name of the file to save this catalogue to.</param>
         /// <param name="options">Use these <see cref="JsonSerializerOptions">options</see> when saving the catalogue file as JSON.</param>
         public async Task SaveAsync(string path, JsonSerializerOptions? options = null)
             => await File.WriteAllTextAsync(path, Serialize(this, options));
