@@ -130,7 +130,7 @@ namespace Rezaee.Iranseda
                         OverrideEncoding = System.Text.Encoding.UTF8
                     };
 
-                    HtmlDocument htmlDoc = htmlWeb.Load(Url.AbsolutePath, "GET", proxy, credentials);
+                    HtmlDocument htmlDoc = htmlWeb.Load(Url.AbsoluteUri, "GET", proxy, credentials);
 
                     HtmlNodeCollection htmlNodes = htmlDoc.DocumentNode.SelectNodes("//div[contains(@class, 'episode-box')]//li");
 

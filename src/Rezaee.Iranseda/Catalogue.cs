@@ -110,7 +110,7 @@ namespace Rezaee.Iranseda
                         OverrideEncoding = System.Text.Encoding.UTF8
                     };
 
-                    HtmlDocument htmlDoc = htmlWeb.Load(channelListUri.AbsolutePath, "GET", proxy, credentials);
+                    HtmlDocument htmlDoc = htmlWeb.Load(channelListUri.AbsoluteUri, "GET", proxy, credentials);
 
                     HtmlNodeCollection htmlNodes = htmlDoc.DocumentNode.SelectNodes("//div[contains(@class,'ch-list')]//article");
 

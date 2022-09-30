@@ -135,7 +135,7 @@ namespace Rezaee.Iranseda
                         OverrideEncoding = System.Text.Encoding.UTF8
                     };
 
-                    HtmlDocument htmlDoc = htmlWeb.Load(ProgrammesUrl.AbsolutePath, "GET", proxy, credentials);
+                    HtmlDocument htmlDoc = htmlWeb.Load(ProgrammesUrl.AbsoluteUri, "GET", proxy, credentials);
 
                     HtmlNodeCollection htmlNodes = htmlDoc.DocumentNode.SelectNodes("//section[@id='ProgramList']//article");
 
