@@ -4,7 +4,7 @@ A dotnet library for cataloguing and downloading from the national radio archive
 
 [![CI Status](https://github.com/alireza-rezaee/iranseda/actions/workflows/ci.yml/badge.svg)](https://github.com/alireza-rezaee/iranseda/actions/workflows/ci.yml)
 [![CD Status](https://github.com/alireza-rezaee/iranseda/actions/workflows/cd.yml/badge.svg)](https://github.com/alireza-rezaee/iranseda/actions/workflows/cd.yml)
-[![Nuget](https://img.shields.io/nuget/v/Rezaee.Iranseda?color=blue&label=NuGet&logo=NuGet)](https://www.nuget.org/packages/Rezaee.Iranseda/)
+[![Nuget](https://img.shields.io/nuget/v/Rezaee.Data.Iranseda?color=blue&label=NuGet&logo=NuGet)](https://www.nuget.org/packages/Rezaee.Data.Iranseda/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-gray.svg)](./LICENSE)
 
 ## Install
@@ -18,15 +18,15 @@ A dotnet library for cataloguing and downloading from the national radio archive
 There are many ways to install a package, which may vary on different platforms. For example, for Script & Interactive, we act as follows:
 
 ```csharp
-#r "nuget: Rezaee.Iranseda, 1.0.0-alpha.1"
+#r "nuget: Rezaee.Data.Iranseda, 1.0.0-alpha.1"
 ```
 
-You'll find more ways on the NuGet [package page](https://www.nuget.org/packages/Rezaee.Iranseda/).
+You'll find more ways on the NuGet [package page](https://www.nuget.org/packages/Rezaee.Data.Iranseda/).
 
 ## Usage
 
 ```csharp
-using Rezaee.Iranseda;
+using Rezaee.Data.Iranseda;
 using System.Text.Json;
 
 // Create a new empty catalogue

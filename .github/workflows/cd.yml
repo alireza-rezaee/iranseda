@@ -25,16 +25,16 @@ jobs:
       - name: .Net Test
         run: dotnet test --no-build --no-restore --configuration Release
       - name: .Net Pack
-        run: dotnet pack src/Rezaee.Iranseda --no-build --no-restore --configuration Release
+        run: dotnet pack src/Rezaee.Data.Iranseda --no-build --no-restore --configuration Release
       - name: Push to NuGet
         run: |
-          dotnet nuget push src/Rezaee.Iranseda/**/*.nupkg \
+          dotnet nuget push src/Rezaee.Data.Iranseda/**/*.nupkg \
           --api-key ${{ secrets.NUGET_API_KEY }} \
           --source https://api.nuget.org/v3/index.json \
           --skip-duplicate
       - name: Push to GitHub
         run: |
-          dotnet nuget push src/Rezaee.Iranseda/**/*.nupkg \
+          dotnet nuget push src/Rezaee.Data.Iranseda/**/*.nupkg \
           --api-key ${{ secrets.USER_PAT }} \
           --source https://nuget.pkg.github.com/alireza-rezaee/index.json \
           --skip-duplicate

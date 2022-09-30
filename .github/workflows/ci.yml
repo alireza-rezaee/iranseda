@@ -8,7 +8,7 @@ on:
     paths:
       - 'src/**'
       - 'tests/**'
-      - 'Rezaee.Iranseda.sln'
+      - 'Rezaee.Data.Iranseda.sln'
       - '.github/workflows/ci.yml'
   pull_request:
     branches:
@@ -17,7 +17,7 @@ on:
     paths:
       - 'src/**'
       - 'tests/**'
-      - 'Rezaee.Iranseda.sln'
+      - 'Rezaee.Data.Iranseda.sln'
       - '.github/workflows/ci.yml'
 
 jobs:
