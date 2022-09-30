@@ -184,10 +184,13 @@ namespace Rezaee.Iranseda
                 client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("audio/mpeg"));
             }
 
-            if (preferredMirror != null)
-                partition.Mirrors.OrderBy(mirror => preferredMirror.IsBaseOf(mirror));
+            IEnumerable<Uri> mirrors;
+            if (preferredMirror == null)
+                mirrors = partition.Mirrors;
+            else
+                mirrors = partition.Mirrors.OrderByDescending(mirror => preferredMirror.IsBaseOf(mirror));
 
-            foreach (Uri mirror in partition.Mirrors)
+            foreach (Uri mirror in mirrors)
             {
                 try
                 {
