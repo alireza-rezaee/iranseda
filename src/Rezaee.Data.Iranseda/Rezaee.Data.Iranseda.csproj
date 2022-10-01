@@ -12,7 +12,7 @@
     <PackageRequireLicenseAcceptance>True</PackageRequireLicenseAcceptance>
     <RepositoryType>git</RepositoryType>
     <RepositoryUrl>https://github.com/alireza-rezaee/iranseda</RepositoryUrl>
-    <Version>1.0.0-alpha.2+SHA.dc94d49d1803a025da73ed9fdca32d3c8df36e68</Version>
+    <Version>1.0.0-alpha.2.1+SHA.76fe63297c0e23f41cb4c12b63ac6d8757cbaca2</Version>
   </PropertyGroup>
 
   <ItemGroup>

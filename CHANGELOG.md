@@ -1,8 +1,14 @@
 # Change Log
 
+## [1.0.0-alpha.2.1](https://www.github.com/alireza-rezaee/iranseda/releases/tag/v1.0.0-alpha.2.1) (2022-10-01)
+
+### Others
+
+* update README.md ([76fe632](https://github.com/alireza-rezaee/iranseda/commit/76fe63297c0e23f41cb4c12b63ac6d8757cbaca2))
+
 ## [1.0.0-alpha.2](https://www.github.com/alireza-rezaee/iranseda/releases/tag/v1.0.0-alpha.2) (2022-10-01)
 
-### Breaking
+### Breakings
 
 * rename the namespace prefix ([dc94d49](https://github.com/alireza-rezaee/iranseda/commit/dc94d49d1803a025da73ed9fdca32d3c8df36e68))
 
