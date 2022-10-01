@@ -1,6 +1,12 @@
 # Change Log
 
-## [1.0.0-alpha.1](https://www.github.com/alireza-rezaee/iranseda-downloader/releases/tag/v1.0.0-beta.1) (2022-09-30)
+## [1.0.0-alpha.2](https://www.github.com/alireza-rezaee/iranseda/releases/tag/v1.0.0-alpha.2) (2022-10-01)
+
+### Breaking
+
+* rename the namespace prefix ([dc94d49](https://github.com/alireza-rezaee/iranseda/commit/dc94d49d1803a025da73ed9fdca32d3c8df36e68))
+
+## [1.0.0-alpha.1](https://www.github.com/alireza-rezaee/iranseda/releases/tag/v1.0.0-alpha.1) (2022-09-30)
 
 ### Bug Fixes
 
