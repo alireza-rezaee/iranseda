@@ -18,7 +18,7 @@ A dotnet library for cataloguing and downloading from the national radio archive
 There are many ways to install a package, which may vary on different platforms. For example, for Script & Interactive, we act as follows:
 
 ```csharp
-#r "nuget: Rezaee.Data.Iranseda, 1.0.0-alpha.1"
+#r "nuget: Rezaee.Data.Iranseda, 1.0.0-alpha.2.1"
 ```
 
 You'll find more ways on the NuGet [package page](https://www.nuget.org/packages/Rezaee.Data.Iranseda/).
