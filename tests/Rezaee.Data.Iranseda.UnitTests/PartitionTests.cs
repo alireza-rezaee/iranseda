@@ -1,5 +1,5 @@
 ﻿using Rezaee.Data.Iranseda.Configurations;
-using static Rezaee.Data.Iranseda.UnitTests.Helpers.UriHelper;
+using static Rezaee.Data.Iranseda.Helpers.UrlHelper;
 
 namespace Rezaee.Data.Iranseda.UnitTests
 {
