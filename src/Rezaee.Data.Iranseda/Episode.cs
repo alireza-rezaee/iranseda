@@ -124,17 +124,15 @@ namespace Rezaee.Data.Iranseda
 
         #region Methods
         /// <summary>
-        /// Load all the partitions of this episode from <see href="http://radio.iranseda.ir/">Iranseda</see> website.
+        /// TODO
         /// </summary>
-        /// <param name="tries">The number of attempts to send the request, if the previous one failed.</param>
-        /// <param name="skipHtmlException">Prevent <see cref="HtmlParseException"/> from being thrown.</param>
-        /// <param name="proxy">Proxy to use with the request.</param>
-        /// <param name="credentials">Credentials to use when authenticating.</param>
-        /// <returns>List of all the available partitions for the current episode.</returns>
-        public List<Partition>? LoadPartitions(int tries = 1, bool skipHtmlException = false,
-            WebProxy? proxy = null, NetworkCredential? credentials = null)
+        /// <param name="options"></param>
+        /// <returns></returns>
+        public List<Partition>? LoadPartitions(LoadOptions? options = null)
         {
-            for (int @try = 0; @try < tries; @try++)
+            options ??= new LoadOptions();
+
+            for (int @try = 0; @try < options.MaxTries; @try++)
             {
                 try
                 {
@@ -146,14 +144,14 @@ namespace Rezaee.Data.Iranseda
                         OverrideEncoding = System.Text.Encoding.UTF8
                     };
 
-                    HtmlDocument htmlDoc = htmlWeb.Load(Url.AbsoluteUri, "GET", proxy, credentials);
+                    HtmlDocument htmlDoc = htmlWeb.Load(Url.AbsoluteUri, "GET", options.Proxy, options.Credential);
 
                     HtmlNodeCollection htmlNodes = htmlDoc.DocumentNode
                         .SelectNodes("(//section[@id='taglist2']//div[contains(@class, 'container')]/div/div)[2]//article");
 
                     if (htmlNodes == null || !htmlNodes.Any())
                     {
-                        if (skipHtmlException)
+                        if (options.DontThrowHPE)
                             return parts;
                         throw new HtmlParseException("Reached incorrect HTML format or the target"
                             + $"element(s) did not exist on the page. (Episode-URL: {Url})");

@@ -94,18 +94,17 @@ namespace Rezaee.Data.Iranseda
 
         #region Methods
         /// <summary>
-        /// Load all the available channels from <see href="http://radio.iranseda.ir/">Iranseda</see> website.
+        /// TODO
         /// </summary>
-        /// <param name="recursive">Load all the <see cref="Channel"/>s and their childs recursively.</param>
-        /// <param name="tries">The number of attempts to send the request, if the previous one failed.</param>
-        /// <param name="skipHtmlException">Prevent <see cref="HtmlParseException"/> from being thrown.</param>
-        /// <param name="proxy">Proxy to use with the request.</param>
-        /// <param name="credentials">Credentials to use when authenticating.</param>
-        /// <returns>List of all the available channels.</returns>
-        public List<Channel>? LoadChannels(bool recursive = false, int tries = 1, bool skipHtmlException = false,
-            WebProxy? proxy = null, NetworkCredential? credentials = null)
+        /// <param name="options"></param>
+        /// <param name="isRecursive"></param>
+        /// <returns></returns>
+        /// <exception cref="InvalidOperationException"></exception>
+        public List<Channel>? LoadChannels(LoadOptions? options = null, bool isRecursive = false)
         {
-            for (int @try = 0; @try < tries; @try++)
+            options ??= new LoadOptions();
+
+            for (int @try = 0; @try < options.MaxTries; @try++)
             {
                 try
                 {
@@ -117,13 +116,13 @@ namespace Rezaee.Data.Iranseda
                         OverrideEncoding = System.Text.Encoding.UTF8
                     };
 
-                    HtmlDocument htmlDoc = htmlWeb.Load(channelListUri.AbsoluteUri, "GET", proxy, credentials);
+                    HtmlDocument htmlDoc = htmlWeb.Load(channelListUri.AbsoluteUri, "GET", options.Proxy, options.Credential);
 
                     HtmlNodeCollection htmlNodes = htmlDoc.DocumentNode.SelectNodes("//div[contains(@class,'ch-list')]//article");
 
                     if (htmlNodes == null || !htmlNodes.Any())
                     {
-                        if (skipHtmlException)
+                        if (options.DontThrowHPE)
                             return channelList;
                         throw new HtmlParseException("Reached incorrect HTML format or the target"
                             + $"element(s) did not exist on the page. (URL of the List of channels: {channelListUri})");
@@ -152,8 +151,8 @@ namespace Rezaee.Data.Iranseda
                         });
                     }
 
-                    if (recursive)
-                        channelList.ForEach(c => c.Programmes = c.LoadProgrammes(recursive, tries, skipHtmlException));
+                    if (isRecursive)
+                        channelList.ForEach(c => c.Programmes = c.LoadProgrammes(options));
 
                     return channelList;
                 }
