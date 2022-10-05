@@ -31,7 +31,7 @@ namespace Rezaee.Data.Iranseda
         /// <summary>
         /// TODO
         /// </summary>
-        public (string ChannelId, string ProgrammeId) Id { get; set; }
+        public Identity Identity { get; set; }
 
         /// <summary>
         /// The name of the current programme.
@@ -41,7 +41,7 @@ namespace Rezaee.Data.Iranseda
         /// <summary>
         /// The URL of the current programme.
         /// </summary>
-        public Uri Url { get => UrlHelper.MakeProgrammeUrl(ch: Id.ChannelId, m: Id.ProgrammeId); }
+        public Uri Url { get => UrlHelper.MakeProgrammeUrl(ch: Identity.ChannelId, m: Identity.Id); }
 
         /// <summary>
         /// Episodes in the current programme.
@@ -71,7 +71,7 @@ namespace Rezaee.Data.Iranseda
         [JsonIgnore(Condition = JsonIgnoreCondition.Always)]
         public Channel Channel
         {
-            get => _channel ?? new Channel(id: Id.ChannelId);
+            get => _channel ?? new Channel(id: Identity.ChannelId);
             set => _channel = value;
         }
         #endregion
@@ -80,13 +80,26 @@ namespace Rezaee.Data.Iranseda
         /// <summary>
         /// TODO
         /// </summary>
+        /// <param name="channelId"></param>
+        /// <param name="id"></param>
+        /// <param name="name"></param>
+        /// <param name="episodes"></param>
+        public Programme(string channelId,
+            string id,
+            string? name = null,
+            List<Episode>? episodes = null)
+            => (Identity, Name, Episodes) = (new Identity(channelId, id), name, episodes);
+
+        /// <summary>
+        /// TODO
+        /// </summary>
         /// <param name="identity"></param>
         /// <param name="name"></param>
         /// <param name="episodes"></param>
-        public Programme((string channelId, string programmeId) identity,
+        public Programme(Identity identity,
             string? name = null,
             List<Episode>? episodes = null)
-            => (Id, Name, Episodes) = ((ChannelId: identity.programmeId, ProgrammeId: identity.channelId), name, episodes);
+            => (Identity, Name, Episodes) = (identity, name, episodes);
 
         /// <summary>
         /// TODO
@@ -99,7 +112,7 @@ namespace Rezaee.Data.Iranseda
             Channel channel,
             string? name = null,
             List<Episode>? episodes = null)
-            => (Id, Channel, Name, Episodes) = ((ChannelId: channel.Id, ProgrammeId: id), channel, name, episodes);
+            => (Identity, Channel, Name, Episodes) = (new Identity(channel.Id, id), channel, name, episodes);
         #endregion
 
         #region Methods
@@ -247,18 +260,18 @@ namespace Rezaee.Data.Iranseda
             ThrowHelper.ThrowArgumentNullExceptionIfNull(first, nameof(first));
             ThrowHelper.ThrowArgumentNullExceptionIfNull(second, nameof(second));
 
-            if (first.Id != second.Id)
-                throw new InvalidOperationException($"Merge Error. Both side of merge must have a same {nameof(first.Id)}.");
+            if (first.Identity != second.Identity)
+                throw new InvalidOperationException($"Merge Error. Both side of merge must have a same {nameof(first.Identity)}.");
 
             (var newer, var older) = first.LastModified >= second.LastModified ? (first, second) : (second, first);
 
             if (newer == older)
                 return newer;
 
-            List<Episode> mergedEpisodes = newer.Episodes.Union(older.Episodes).GroupBy(episode => episode.Id)
+            List<Episode> mergedEpisodes = newer.Episodes.Union(older.Episodes).GroupBy(episode => episode.Identity)
                 .Select(episodes => Episode.Merge(episodes)).OrderByDescending(episode => episode.Date).ToList();
 
-            return new Programme(identity: newer.Id, name: newer.Name, episodes: mergedEpisodes)
+            return new Programme(identity: newer.Identity, name: newer.Name, episodes: mergedEpisodes)
             {
                 LastModified = newer.LastModified
             };
@@ -281,7 +294,7 @@ namespace Rezaee.Data.Iranseda
                 case NullComparisonResult.OneSideOnly:
                     return false;
                 case NullComparisonResult.NoneNull:
-                    if (config.CheckIdentity && left!.Id != right!.Id)
+                    if (config.CheckIdentity && left!.Identity != right!.Identity)
                         return false;
 
                     if (config.CheckEpisodes)
@@ -343,7 +356,7 @@ namespace Rezaee.Data.Iranseda
 
         /// <inheritdoc/>
         public override int GetHashCode()
-            => (Id, Episodes?.GetOrderIndependentHashCode()).GetHashCode();
+            => (Identity, Episodes?.GetOrderIndependentHashCode()).GetHashCode();
         #endregion
     }
 }

@@ -1,5 +1,4 @@
 ﻿using Rezaee.Data.Iranseda.Configurations;
-using static Rezaee.Data.Iranseda.Helpers.UrlHelper;
 
 namespace Rezaee.Data.Iranseda.UnitTests
 {
@@ -308,7 +307,7 @@ namespace Rezaee.Data.Iranseda.UnitTests
                 new Uri("https://example.org/2")
             }, time: "12:00")
             {
-                Episode = new(identity: (channelId: "01", episodeId: "01"), name: "foo", date: DateTime.Today)
+                Episode = new(channelId: "01", id: "01", name: "foo", date: DateTime.Today)
             };
 
             Partition sameParrents = new(mirrors: new()
@@ -317,7 +316,7 @@ namespace Rezaee.Data.Iranseda.UnitTests
                 new Uri("https://example.org/2")
             }, time: "12:00")
             {
-                Episode = new(identity: (channelId: "01", episodeId: "01"), name: "foo", date: DateTime.Today)
+                Episode = new(channelId: "01", id: "01", name: "foo", date: DateTime.Today)
             };
 
             // Act
@@ -339,7 +338,7 @@ namespace Rezaee.Data.Iranseda.UnitTests
                 new Uri("https://example.org/2")
             }, time: "12:00")
             {
-                Episode = new(identity: (channelId: "01", episodeId: "01"), name: "foo", date: DateTime.Today)
+                Episode = new(channelId: "01", id: "01", name: "foo", date: DateTime.Today)
             };
 
             Partition notSameParrents = new(mirrors: new()
@@ -348,7 +347,7 @@ namespace Rezaee.Data.Iranseda.UnitTests
                 new Uri("https://example.org/2")
             }, time: "12:00")
             {
-                Episode = new(identity: (channelId: "01", episodeId: "02"), name: "bar", date: DateTime.Today.AddDays(1))
+                Episode = new(channelId: "01", id: "02", name: "bar", date: DateTime.Today.AddDays(1))
             };
 
             // Act
@@ -370,7 +369,7 @@ namespace Rezaee.Data.Iranseda.UnitTests
                 new Uri("https://example.org/2")
             }, time: "12:00")
             {
-                Episode = new(identity: (channelId: "01", episodeId: "01"), name: "foo", date: DateTime.Today)
+                Episode = new(channelId: "01", id: "01", name: "foo", date: DateTime.Today)
             };
 
             Partition sameParrents = new(mirrors: new()
@@ -379,7 +378,7 @@ namespace Rezaee.Data.Iranseda.UnitTests
                 new Uri("https://example.org/2")
             }, time: "12:00")
             {
-                Episode = new(identity: (channelId: "01", episodeId: "01"), name: "foo", date: DateTime.Today)
+                Episode = new(channelId: "01", id: "01", name: "foo", date: DateTime.Today)
             };
 
             // Act
@@ -401,7 +400,7 @@ namespace Rezaee.Data.Iranseda.UnitTests
                 new Uri("https://example.org/2")
             }, time: "12:00")
             {
-                Episode = new(identity: (channelId: "01", episodeId: "01"), name: "foo", date: DateTime.Today)
+                Episode = new(channelId: "01", id: "01", name: "foo", date: DateTime.Today)
             };
 
             Partition notSameParrents = new(mirrors: new()
@@ -410,7 +409,7 @@ namespace Rezaee.Data.Iranseda.UnitTests
                 new Uri("https://example.org/2")
             }, time: "12:00")
             {
-                Episode = new(identity: (channelId: "01", episodeId: "02"), name: "bar", date: DateTime.Today.AddDays(1))
+                Episode = new(channelId: "01", id: "02", name: "bar", date: DateTime.Today.AddDays(1))
             };
 
             // Act
@@ -633,7 +632,7 @@ namespace Rezaee.Data.Iranseda.UnitTests
                 new Uri("https://example.org/2")
             }, time: "12:00")
             {
-                Episode = new(identity: (channelId: "01", episodeId: "01"), name: "foo", date: DateTime.Today)
+                Episode = new(channelId: "01", id: "01", name: "foo", date: DateTime.Today)
             };
 
             Partition notSameParrents = new(mirrors: new()
@@ -642,7 +641,7 @@ namespace Rezaee.Data.Iranseda.UnitTests
                 new Uri("https://example.org/2")
             }, time: "12:00")
             {
-                Episode = new(identity: (channelId: "01", episodeId: "02"), name: "bar", date: DateTime.Today)
+                Episode = new(channelId: "01", id: "02", name: "bar", date: DateTime.Today)
             };
 
             // Act
@@ -781,7 +780,7 @@ namespace Rezaee.Data.Iranseda.UnitTests
                 new Uri("https://example.org/2")
             }, time: "12:00")
             {
-                Episode = new(identity: (channelId: "01", episodeId: "01"), name: "foo", date: DateTime.Today)
+                Episode = new(channelId: "01", id: "01", name: "foo", date: DateTime.Today)
             };
 
             Partition notSameParrents = new(mirrors: new()
@@ -790,7 +789,7 @@ namespace Rezaee.Data.Iranseda.UnitTests
                 new Uri("https://example.org/2")
             }, time: "12:00")
             {
-                Episode = new(identity: (channelId: "01", episodeId: "02"), name: "bar", date: DateTime.Today.AddDays(1))
+                Episode = new(channelId: "01", id: "02", name: "bar", date: DateTime.Today.AddDays(1))
             };
 
             // Act
@@ -929,7 +928,7 @@ namespace Rezaee.Data.Iranseda.UnitTests
                 new Uri("https://example.org/2")
             }, time: "12:00")
             {
-                Episode = new(identity: (channelId: "01", episodeId: "01"), name: "foo", date: DateTime.Today)
+                Episode = new(channelId: "01", id: "01", name: "foo", date: DateTime.Today)
             };
 
             Partition notSameParrents = new(mirrors: new()
@@ -938,7 +937,7 @@ namespace Rezaee.Data.Iranseda.UnitTests
                 new Uri("https://example.org/2")
             }, time: "12:00")
             {
-                Episode = new(identity: (channelId: "01", episodeId: "02"), name: "bar", date: DateTime.Today.AddDays(1))
+                Episode = new(channelId: "01", id: "02", name: "bar", date: DateTime.Today.AddDays(1))
             };
 
             // Act
@@ -1063,7 +1062,7 @@ namespace Rezaee.Data.Iranseda.UnitTests
                 new Uri("https://example.org/2")
             }, time: "12:00")
             {
-                Episode = new(identity: (channelId: "01", episodeId: "01"), name: "foo", date: DateTime.Today)
+                Episode = new(channelId: "01", id: "01", name: "foo", date: DateTime.Today)
             };
 
             Partition notSameParrents = new(mirrors: new()
@@ -1072,7 +1071,7 @@ namespace Rezaee.Data.Iranseda.UnitTests
                 new Uri("https://example.org/2")
             }, time: "12:00")
             {
-                Episode = new(identity: (channelId: "01", episodeId: "02"), name: "bar", date: DateTime.Today.AddDays(1))
+                Episode = new(channelId: "01", id: "02", name: "bar", date: DateTime.Today.AddDays(1))
             };
 
             // Act

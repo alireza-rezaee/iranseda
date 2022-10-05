@@ -234,7 +234,7 @@ namespace Rezaee.Data.Iranseda
             if (newer == older)
                 return newer;
 
-            List<Programme> mergedProgrammes = newer.Programmes.Union(older.Programmes).GroupBy(programme => programme.Id)
+            List<Programme> mergedProgrammes = newer.Programmes.Union(older.Programmes).GroupBy(programme => programme.Identity)
                 .Select(programmes => Programme.Merge(programmes)).OrderBy(programme => programme.Name).ToList();
 
             return new Channel(id: newer.Id, name: newer.Name, programmes: mergedProgrammes)

@@ -29,7 +29,7 @@ namespace Rezaee.Data.Iranseda
         /// <summary>
         /// TODO
         /// </summary>
-        public (string ChannelId, string EpisodeId) Id { get; set; }
+        public Identity Identity { get; set; }
 
         /// <summary>
         /// The name of the current episode.
@@ -45,7 +45,7 @@ namespace Rezaee.Data.Iranseda
         /// <summary>
         /// The URL of the current episode.
         /// </summary>
-        public Uri Url { get => UrlHelper.MakeEpisodeUrl(ch: Id.ChannelId, e: Id.EpisodeId); }
+        public Uri Url { get => UrlHelper.MakeEpisodeUrl(ch: Identity.ChannelId, e: Identity.Id); }
 
         /// <summary>
         /// Partitions in the current episode.
@@ -81,7 +81,7 @@ namespace Rezaee.Data.Iranseda
         [JsonIgnore(Condition = JsonIgnoreCondition.Always)]
         public Channel? Channel
         {
-            get => _channel ?? new Channel(id: Id.ChannelId);
+            get => _channel ?? new Channel(id: Identity.ChannelId);
             set => _channel = value;
         }
         #endregion
@@ -94,18 +94,32 @@ namespace Rezaee.Data.Iranseda
         /// <param name="name"></param>
         /// <param name="date"></param>
         /// <param name="partitions"></param>
-        public Episode((string channelId, string episodeId) identity,
+        public Episode(string channelId,
+            string id,
             string? name = null,
             DateTime? date = null,
             List<Partition>? partitions = null)
-            => (Id, Name, Date, Partitions) = ((identity.channelId, identity.episodeId), name, date, partitions);
+            => (Identity, Name, Date, Partitions) = (new Identity(channelId, id), name, date, partitions);
+
+        /// <summary>
+        /// TODO
+        /// </summary>
+        /// <param name="identity"></param>
+        /// <param name="name"></param>
+        /// <param name="date"></param>
+        /// <param name="partitions"></param>
+        public Episode(Identity identity,
+            string? name = null,
+            DateTime? date = null,
+            List<Partition>? partitions = null)
+            => (Identity, Name, Date, Partitions) = (identity, name, date, partitions);
 
         public Episode(string id,
             Programme programme,
             string? name = null,
             DateTime? date = null,
             List<Partition>? partitions = null)
-            => (Id, Name, Date, Partitions) = ((ChannelId: programme.Id.ChannelId, EpisodeId: id), name, date, partitions);
+            => (Identity, Name, Date, Partitions) = (new Identity(programme.Identity.ChannelId, id), name, date, partitions);
         #endregion
 
         #region Methods
@@ -245,8 +259,8 @@ namespace Rezaee.Data.Iranseda
             ThrowHelper.ThrowArgumentNullExceptionIfNull(first, nameof(first));
             ThrowHelper.ThrowArgumentNullExceptionIfNull(second, nameof(second));
 
-            if (first.Id != second.Id)
-                throw new InvalidOperationException($"Merge Error. Both side of merge must have a same {nameof(first.Id)}.");
+            if (first.Identity != second.Identity)
+                throw new InvalidOperationException($"Merge Error. Both side of merge must have a same {nameof(first.Identity)}.");
 
             (var newer, var older) = first.LastModified >= second.LastModified ? (first, second) : (second, first);
 
@@ -256,7 +270,7 @@ namespace Rezaee.Data.Iranseda
             List<Partition> mergedPartitions = newer.Partitions.Union(older.Partitions).GroupBy(partition => partition.Identity)
                 .Select(partitions => Partition.Merge(partitions)).OrderBy(partition => partition.Time).ToList();
 
-            return new Episode(identity: newer.Id, name: newer.Name, date: newer.Date, partitions: mergedPartitions);
+            return new Episode(identity: newer.Identity, name: newer.Name, date: newer.Date, partitions: mergedPartitions);
         }
 
         /// <summary>
@@ -276,7 +290,7 @@ namespace Rezaee.Data.Iranseda
                 case NullComparisonResult.OneSideOnly:
                     return false;
                 case NullComparisonResult.NoneNull:
-                    if (config.CheckIdentity && left!.Id != right!.Id)
+                    if (config.CheckIdentity && left!.Identity != right!.Identity)
                         return false;
 
                     if (config.CheckPartitions)
@@ -336,7 +350,7 @@ namespace Rezaee.Data.Iranseda
 
         /// <inheritdoc/>
         public override int GetHashCode()
-            => (Id, Partitions?.GetOrderIndependentHashCode()).GetHashCode();
+            => (Identity, Partitions?.GetOrderIndependentHashCode()).GetHashCode();
         #endregion
     }
 }

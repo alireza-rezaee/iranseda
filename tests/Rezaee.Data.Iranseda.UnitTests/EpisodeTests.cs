@@ -1,5 +1,4 @@
 ﻿using Rezaee.Data.Iranseda.Configurations;
-using static Rezaee.Data.Iranseda.Helpers.UrlHelper;
 
 namespace Rezaee.Data.Iranseda.UnitTests
 {
@@ -11,9 +10,9 @@ namespace Rezaee.Data.Iranseda.UnitTests
         {
             // Arrange
             Episode one =
-                new(identity: (channelId: "01", episodeId: "01"), name: "foo", date: DateTime.Today);
+                new(channelId: "01", id: "01", name: "foo", date: DateTime.Today);
             Episode sameOne =
-                new(identity: (channelId: "01", episodeId: "01"), name: "foo", date: DateTime.Today);
+                new(channelId: "01", id: "01", name: "foo", date: DateTime.Today);
 
             // Act
             var result = Episode.Equals(one, sameOne);
@@ -26,7 +25,7 @@ namespace Rezaee.Data.Iranseda.UnitTests
         public static void Equals_DefaultEqualityConfig_OneNull_ReturnsFalse()
         {
             // Arrange
-            Episode notNull = new(identity: (channelId: "01", episodeId: "01"), name: "foo", date: DateTime.Today);
+            Episode notNull = new(channelId: "01", id: "01", name: "foo", date: DateTime.Today);
             Episode? @null = null;
 
             // Act
@@ -41,9 +40,9 @@ namespace Rezaee.Data.Iranseda.UnitTests
         {
             // Arrange
             Episode one =
-                new(identity: (channelId: "01", episodeId: "01"), name: "foo", date: DateTime.Today);
+                new(channelId: "01", id: "01", name: "foo", date: DateTime.Today);
             Episode notSameIdentity =
-                new(identity: (channelId: "01", episodeId: "02"), name: "bar", date: DateTime.Today.AddDays(1));
+                new(channelId: "01", id: "02", name: "bar", date: DateTime.Today.AddDays(1));
 
             // Act
             var result = Episode.Equals(one, notSameIdentity);
@@ -57,7 +56,7 @@ namespace Rezaee.Data.Iranseda.UnitTests
         {
             // Arrange
             Episode one =
-                new(identity: (channelId: "01", episodeId: "01"), name: "foo", date: DateTime.Today)
+                new(channelId: "01", id: "01", name: "foo", date: DateTime.Today)
                 {
                     Partitions = new()
                     {
@@ -66,7 +65,7 @@ namespace Rezaee.Data.Iranseda.UnitTests
                     }
                 };
             Episode sameOne =
-                new(identity: (channelId: "01", episodeId: "01"), name: "foo", date: DateTime.Today)
+                new(channelId: "01", id: "01", name: "foo", date: DateTime.Today)
                 {
                     Partitions = new()
                     {
@@ -87,7 +86,7 @@ namespace Rezaee.Data.Iranseda.UnitTests
         {
             // Arrange
             Episode one =
-                new(identity: (channelId: "01", episodeId: "01"), name: "foo", date: DateTime.Today)
+                new(channelId: "01", id: "01", name: "foo", date: DateTime.Today)
                 {
                     Partitions = new()
                     {
@@ -96,7 +95,7 @@ namespace Rezaee.Data.Iranseda.UnitTests
                     }
                 };
             Episode notSamePartitions =
-                new(identity: (channelId: "01", episodeId: "01"), name: "foo", date: DateTime.Today)
+                new(channelId: "01", id: "01", name: "foo", date: DateTime.Today)
                 {
                     Partitions = new()
                     {
@@ -118,9 +117,9 @@ namespace Rezaee.Data.Iranseda.UnitTests
             // Arrange
             EpisodesEqualityConfiguration trueCheckIdentity = new() { CheckIdentity = true };
             Episode one =
-                new(identity: (channelId: "01", episodeId: "01"), name: "foo", date: DateTime.Today);
+                new(channelId: "01", id: "01", name: "foo", date: DateTime.Today);
             Episode sameOne =
-                new(identity: (channelId: "01", episodeId: "01"), name: "foo", date: DateTime.Today);
+                new(channelId: "01", id: "01", name: "foo", date: DateTime.Today);
 
             // Act
             var result = Episode.Equals(one, sameOne, config: trueCheckIdentity);
@@ -135,9 +134,9 @@ namespace Rezaee.Data.Iranseda.UnitTests
             // Arrange
             EpisodesEqualityConfiguration trueCheckIdentity = new() { CheckIdentity = true };
             Episode one =
-                new(identity: (channelId: "01", episodeId: "01"), name: "foo", date: DateTime.Today);
+                new(channelId: "01", id: "01", name: "foo", date: DateTime.Today);
             Episode notSameIdentity =
-                new(identity: (channelId: "01", episodeId: "02"), name: "bar", date: DateTime.Today.AddDays(1));
+                new(channelId: "01", id: "02", name: "bar", date: DateTime.Today.AddDays(1));
 
             // Act
             var result = Episode.Equals(one, notSameIdentity, config: trueCheckIdentity);
@@ -152,9 +151,9 @@ namespace Rezaee.Data.Iranseda.UnitTests
             // Arrange
             EpisodesEqualityConfiguration falseCheckIdentity = new() { CheckIdentity = false };
             Episode one =
-                new(identity: (channelId: "01", episodeId: "01"), name: "foo", date: DateTime.Today);
+                new(channelId: "01", id: "01", name: "foo", date: DateTime.Today);
             Episode notSameIdentity =
-                new(identity: (channelId: "01", episodeId: "01"), name: "foo", date: DateTime.Today);
+                new(channelId: "01", id: "01", name: "foo", date: DateTime.Today);
 
             // Act
             var result = Episode.Equals(one, notSameIdentity, config: falseCheckIdentity);
@@ -169,9 +168,9 @@ namespace Rezaee.Data.Iranseda.UnitTests
             // Arrange
             EpisodesEqualityConfiguration falseCheckIdentity = new() { CheckIdentity = false };
             Episode one =
-                new(identity: (channelId: "01", episodeId: "01"), name: "foo", date: DateTime.Today);
+                new(channelId: "01", id: "01", name: "foo", date: DateTime.Today);
             Episode notSameIdentity =
-                new(identity: (channelId: "01", episodeId: "02"), name: "bar", date: DateTime.Today.AddDays(1));
+                new(channelId: "01", id: "02", name: "bar", date: DateTime.Today.AddDays(1));
 
             // Act
             var result = Episode.Equals(one, notSameIdentity, config: falseCheckIdentity);
@@ -187,15 +186,15 @@ namespace Rezaee.Data.Iranseda.UnitTests
             EpisodesEqualityConfiguration trueCheckParents = new() { CheckParents = true };
 
             Episode one =
-                new(identity: (channelId: "01", episodeId: "01"), name: "foo", date: DateTime.Today)
+                new(channelId: "01", id: "01", name: "foo", date: DateTime.Today)
                 {
-                    Programme = new(identity: (channelId: "01", programmeId: "01"), name: "bar")
+                    Programme = new(channelId: "01", id: "01", name: "bar")
                 };
 
             Episode sameParent =
-                new(identity: (channelId: "01", episodeId: "01"), name: "foo", date: DateTime.Today)
+                new(channelId: "01", id: "01", name: "foo", date: DateTime.Today)
                 {
-                    Programme = new(identity: (channelId: "01", programmeId: "01"), name: "bar")
+                    Programme = new(channelId: "01", id: "01", name: "bar")
                 };
 
             // Act
@@ -211,14 +210,14 @@ namespace Rezaee.Data.Iranseda.UnitTests
             // Arrange
             EpisodesEqualityConfiguration trueCheckParents = new() { CheckParents = true };
             Episode one =
-                new(identity: (channelId: "01", episodeId: "01"), name: "foo", date: DateTime.Today)
+                new(channelId: "01", id: "01", name: "foo", date: DateTime.Today)
                 {
-                    Programme = new(identity: (channelId: "01", programmeId: "01"), name: "bar")
+                    Programme = new(channelId: "01", id: "01", name: "bar")
                 };
             Episode notSameParents =
-                new(identity: (channelId: "01", episodeId: "01"), name: "foo", date: DateTime.Today)
+                new(channelId: "01", id: "01", name: "foo", date: DateTime.Today)
                 {
-                    Programme = new(identity: (channelId: "01", programmeId: "02"), name: "baz")
+                    Programme = new(channelId: "01", id: "02", name: "baz")
                 };
 
             // Act
@@ -234,14 +233,14 @@ namespace Rezaee.Data.Iranseda.UnitTests
             // Arrange
             EpisodesEqualityConfiguration falseCheckParents = new() { CheckParents = false };
             Episode one =
-                new(identity: (channelId: "01", episodeId: "01"), name: "foo", date: DateTime.Today)
+                new(channelId: "01", id: "01", name: "foo", date: DateTime.Today)
                 {
-                    Programme = new(identity: (channelId: "01", programmeId: "01"), name: "bar")
+                    Programme = new(channelId: "01", id: "01", name: "bar")
                 };
             Episode sameParent =
-                new(identity: (channelId: "01", episodeId: "01"), name: "foo", date: DateTime.Today)
+                new(channelId: "01", id: "01", name: "foo", date: DateTime.Today)
                 {
-                    Programme = new(identity: (channelId: "01", programmeId: "01"), name: "bar")
+                    Programme = new(channelId: "01", id: "01", name: "bar")
                 };
 
             // Act
@@ -257,14 +256,14 @@ namespace Rezaee.Data.Iranseda.UnitTests
             // Arrange
             EpisodesEqualityConfiguration falseCheckParents = new() { CheckParents = false };
             Episode one =
-                new(identity: (channelId: "01", episodeId: "01"), name: "foo", date: DateTime.Today)
+                new(channelId: "01", id: "01", name: "foo", date: DateTime.Today)
                 {
-                    Programme = new(identity: (channelId: "01", programmeId: "01"), name: "bar")
+                    Programme = new(channelId: "01", id: "01", name: "bar")
                 };
             Episode notSameParents =
-                new(identity: (channelId: "01", episodeId: "01"), name: "foo", date: DateTime.Today)
+                new(channelId: "01", id: "01", name: "foo", date: DateTime.Today)
                 {
-                    Programme = new(identity: (channelId: "01", programmeId: "02"), name: "baz")
+                    Programme = new(channelId: "01", id: "02", name: "baz")
                 };
 
             // Act
@@ -280,7 +279,7 @@ namespace Rezaee.Data.Iranseda.UnitTests
             // Arrange
             EpisodesEqualityConfiguration trueCheckPartitionsIdentity = new() { PartitionsConfig = new() { CheckIdentity = true } };
             Episode one =
-                new(identity: (channelId: "01", episodeId: "01"), name: "foo", date: DateTime.Today)
+                new(channelId: "01", id: "01", name: "foo", date: DateTime.Today)
                 {
                     Partitions = new()
                     {
@@ -289,7 +288,7 @@ namespace Rezaee.Data.Iranseda.UnitTests
                     }
                 };
             Episode sameOne =
-                new(identity: (channelId: "01", episodeId: "01"), name: "foo", date: DateTime.Today)
+                new(channelId: "01", id: "01", name: "foo", date: DateTime.Today)
                 {
                     Partitions = new()
                     {
@@ -311,7 +310,7 @@ namespace Rezaee.Data.Iranseda.UnitTests
             // Arrange
             EpisodesEqualityConfiguration trueCheckPartitionsIdentity = new() { PartitionsConfig = new() { CheckIdentity = true } };
             Episode one =
-                new(identity: (channelId: "01", episodeId: "01"), name: "foo", date: DateTime.Today)
+                new(channelId: "01", id: "01", name: "foo", date: DateTime.Today)
                 {
                     Partitions = new()
                     {
@@ -320,7 +319,7 @@ namespace Rezaee.Data.Iranseda.UnitTests
                     }
                 };
             Episode notSameChilds =
-                new(identity: (channelId: "01", episodeId: "01"), name: "foo", date: DateTime.Today)
+                new(channelId: "01", id: "01", name: "foo", date: DateTime.Today)
                 {
                     Partitions = new()
                     {
@@ -342,7 +341,7 @@ namespace Rezaee.Data.Iranseda.UnitTests
             // Arrange
             EpisodesEqualityConfiguration falseCheckPartitionsIdentity = new() { PartitionsConfig = new() { CheckIdentity = false } };
             Episode one =
-                new(identity: (channelId: "01", episodeId: "01"), name: "foo", date: DateTime.Today)
+                new(channelId: "01", id: "01", name: "foo", date: DateTime.Today)
                 {
                     Partitions = new()
                     {
@@ -351,7 +350,7 @@ namespace Rezaee.Data.Iranseda.UnitTests
                     }
                 };
             Episode sameOne =
-                new(identity: (channelId: "01", episodeId: "01"), name: "foo", date: DateTime.Today)
+                new(channelId: "01", id: "01", name: "foo", date: DateTime.Today)
                 {
                     Partitions = new()
                     {
@@ -373,7 +372,7 @@ namespace Rezaee.Data.Iranseda.UnitTests
             // Arrange
             EpisodesEqualityConfiguration falseCheckPartitionsIdentity = new() { PartitionsConfig = new() { CheckIdentity = false } };
             Episode one =
-                new(identity: (channelId: "01", episodeId: "01"), name: "foo", date: DateTime.Today)
+                new(channelId: "01", id: "01", name: "foo", date: DateTime.Today)
                 {
                     Partitions = new()
                     {
@@ -383,7 +382,7 @@ namespace Rezaee.Data.Iranseda.UnitTests
                 };
 
             Episode notSameChilds =
-                new(identity: (channelId: "01", episodeId: "01"), name: "foo", date: DateTime.Today)
+                new(channelId: "01", id: "01", name: "foo", date: DateTime.Today)
                 {
                     Partitions = new()
                     {
@@ -406,7 +405,7 @@ namespace Rezaee.Data.Iranseda.UnitTests
         {
             // Arrange
             Episode one =
-                new(identity: (channelId: "01", episodeId: "01"), name: "foo", date: DateTime.Today)
+                new(channelId: "01", id: "01", name: "foo", date: DateTime.Today)
                 {
                     Partitions = new()
                     {
@@ -415,7 +414,7 @@ namespace Rezaee.Data.Iranseda.UnitTests
                     }
                 };
             Episode sameOne =
-                new(identity: (channelId: "01", episodeId: "01"), name: "foo", date: DateTime.Today)
+                new(channelId: "01", id: "01", name: "foo", date: DateTime.Today)
                 {
                     Partitions = new()
                     {
@@ -433,7 +432,7 @@ namespace Rezaee.Data.Iranseda.UnitTests
         {
             // Arrange
             Episode one =
-                new(identity: (channelId: "01", episodeId: "01"), name: "foo", date: DateTime.Today)
+                new(channelId: "01", id: "01", name: "foo", date: DateTime.Today)
                 {
                     Partitions = new()
                     {
@@ -442,7 +441,7 @@ namespace Rezaee.Data.Iranseda.UnitTests
                     }
                 };
             Episode notSamePartitions =
-                new(identity: (channelId: "01", episodeId: "01"), name: "foo", date: DateTime.Today)
+                new(channelId: "01", id: "01", name: "foo", date: DateTime.Today)
                 {
                     Partitions = new()
                     {
@@ -452,7 +451,7 @@ namespace Rezaee.Data.Iranseda.UnitTests
                 };
 
             Episode mergeActual =
-                new(identity: (channelId: "01", episodeId: "01"), name: "foo", date: DateTime.Today)
+                new(channelId: "01", id: "01", name: "foo", date: DateTime.Today)
                 {
                     Partitions = new()
                     {
@@ -479,9 +478,9 @@ namespace Rezaee.Data.Iranseda.UnitTests
         {
             // Arrange
             Episode one =
-                new(identity: (channelId: "01", episodeId: "01"), name: "foo", date: DateTime.Today);
+                new(channelId: "01", id: "01", name: "foo", date: DateTime.Today);
             Episode sameOne =
-                new(identity: (channelId: "01", episodeId: "01"), name: "foo", date: DateTime.Today);
+                new(channelId: "01", id: "01", name: "foo", date: DateTime.Today);
 
             // Act
             var result = one == sameOne;
@@ -494,7 +493,7 @@ namespace Rezaee.Data.Iranseda.UnitTests
         public static void EqualsToOperator_OneNull_ReturnsFalse()
         {
             // Arrange
-            Episode notNull = new(identity: (channelId: "01", episodeId: "01"), name: "foo", date: DateTime.Today);
+            Episode notNull = new(channelId: "01", id: "01", name: "foo", date: DateTime.Today);
             Episode? @null = null;
 
             // Act
@@ -509,9 +508,9 @@ namespace Rezaee.Data.Iranseda.UnitTests
         {
             // Arrange
             Episode one =
-                new(identity: (channelId: "01", episodeId: "01"), name: "foo", date: DateTime.Today);
+                new(channelId: "01", id: "01", name: "foo", date: DateTime.Today);
             Episode notSameIdentity =
-                new(identity: (channelId: "01", episodeId: "02"), name: "bar", date: DateTime.Today.AddDays(1));
+                new(channelId: "01", id: "02", name: "bar", date: DateTime.Today.AddDays(1));
 
             // Act
             var result = one == notSameIdentity;
@@ -525,7 +524,7 @@ namespace Rezaee.Data.Iranseda.UnitTests
         {
             // Arrange
             Episode one =
-                new(identity: (channelId: "01", episodeId: "01"), name: "foo", date: DateTime.Today)
+                new(channelId: "01", id: "01", name: "foo", date: DateTime.Today)
                 {
                     Partitions = new()
                     {
@@ -534,7 +533,7 @@ namespace Rezaee.Data.Iranseda.UnitTests
                     }
                 };
             Episode sameOne =
-                new(identity: (channelId: "01", episodeId: "01"), name: "foo", date: DateTime.Today)
+                new(channelId: "01", id: "01", name: "foo", date: DateTime.Today)
                 {
                     Partitions = new()
                     {
@@ -555,7 +554,7 @@ namespace Rezaee.Data.Iranseda.UnitTests
         {
             // Arrange
             Episode one =
-                new(identity: (channelId: "01", episodeId: "01"), name: "foo", date: DateTime.Today)
+                new(channelId: "01", id: "01", name: "foo", date: DateTime.Today)
                 {
                     Partitions = new()
                     {
@@ -564,7 +563,7 @@ namespace Rezaee.Data.Iranseda.UnitTests
                     }
                 };
             Episode notSamePartitions =
-                new(identity: (channelId: "01", episodeId: "01"), name: "foo", date: DateTime.Today)
+                new(channelId: "01", id: "01", name: "foo", date: DateTime.Today)
                 {
                     Partitions = new()
                     {
@@ -587,9 +586,9 @@ namespace Rezaee.Data.Iranseda.UnitTests
         {
             // Arrange
             Episode one =
-                new(identity: (channelId: "01", episodeId: "01"), name: "foo", date: DateTime.Today);
+                new(channelId: "01", id: "01", name: "foo", date: DateTime.Today);
             Episode sameOne =
-                new(identity: (channelId: "01", episodeId: "01"), name: "foo", date: DateTime.Today);
+                new(channelId: "01", id: "01", name: "foo", date: DateTime.Today);
 
             // Act
             var result = one != sameOne;
@@ -602,7 +601,7 @@ namespace Rezaee.Data.Iranseda.UnitTests
         public static void NotEqualsToOperator_OneNull_ReturnsTrue()
         {
             // Arrange
-            Episode notNull = new(identity: (channelId: "01", episodeId: "01"), name: "foo", date: DateTime.Today);
+            Episode notNull = new(channelId: "01", id: "01", name: "foo", date: DateTime.Today);
             Episode? @null = null;
 
             // Act
@@ -617,9 +616,9 @@ namespace Rezaee.Data.Iranseda.UnitTests
         {
             // Arrange
             Episode one =
-                new(identity: (channelId: "01", episodeId: "01"), name: "foo", date: DateTime.Today);
+                new(channelId: "01", id: "01", name: "foo", date: DateTime.Today);
             Episode notSameIdentity =
-                new(identity: (channelId: "01", episodeId: "02"), name: "bar", date: DateTime.Today.AddDays(1));
+                new(channelId: "01", id: "02", name: "bar", date: DateTime.Today.AddDays(1));
 
             // Act
             var result = one != notSameIdentity;
@@ -633,7 +632,7 @@ namespace Rezaee.Data.Iranseda.UnitTests
         {
             // Arrange
             Episode one =
-                new(identity: (channelId: "01", episodeId: "01"), name: "foo", date: DateTime.Today)
+                new(channelId: "01", id: "01", name: "foo", date: DateTime.Today)
                 {
                     Partitions = new()
                     {
@@ -642,7 +641,7 @@ namespace Rezaee.Data.Iranseda.UnitTests
                     }
                 };
             Episode sameOne =
-                new(identity: (channelId: "01", episodeId: "01"), name: "foo", date: DateTime.Today)
+                new(channelId: "01", id: "01", name: "foo", date: DateTime.Today)
                 {
                     Partitions = new()
                     {
@@ -663,7 +662,7 @@ namespace Rezaee.Data.Iranseda.UnitTests
         {
             // Arrange
             Episode one =
-                new(identity: (channelId: "01", episodeId: "01"), name: "foo", date: DateTime.Today)
+                new(channelId: "01", id: "01", name: "foo", date: DateTime.Today)
                 {
                     Partitions = new()
                     {
@@ -672,7 +671,7 @@ namespace Rezaee.Data.Iranseda.UnitTests
                     }
                 };
             Episode notSamePartitions =
-                new(identity: (channelId: "01", episodeId: "01"), name: "foo", date: DateTime.Today)
+                new(channelId: "01", id: "01", name: "foo", date: DateTime.Today)
                 {
                     Partitions = new()
                     {
@@ -695,9 +694,9 @@ namespace Rezaee.Data.Iranseda.UnitTests
         {
             // Arrange
             Episode one =
-                new(identity: (channelId: "01", episodeId: "01"), name: "foo", date: DateTime.Today);
+                new(channelId: "01", id: "01", name: "foo", date: DateTime.Today);
             Episode sameOne =
-                new(identity: (channelId: "01", episodeId: "01"), name: "foo", date: DateTime.Today);
+                new(channelId: "01", id: "01", name: "foo", date: DateTime.Today);
 
             // Act
             var result = one.Equals(sameOne);
@@ -710,7 +709,7 @@ namespace Rezaee.Data.Iranseda.UnitTests
         public static void OverridedEquals_OneNull_ReturnsFalse()
         {
             // Arrange
-            Episode notNull = new(identity: (channelId: "01", episodeId: "01"), name: "foo", date: DateTime.Today);
+            Episode notNull = new(channelId: "01", id: "01", name: "foo", date: DateTime.Today);
             Episode? @null = null;
 
             // Act
@@ -725,9 +724,9 @@ namespace Rezaee.Data.Iranseda.UnitTests
         {
             // Arrange
             Episode one =
-                new(identity: (channelId: "01", episodeId: "01"), name: "foo", date: DateTime.Today);
+                new(channelId: "01", id: "01", name: "foo", date: DateTime.Today);
             Episode notSameIdentity =
-                new(identity: (channelId: "01", episodeId: "02"), name: "bar", date: DateTime.Today.AddDays(1));
+                new(channelId: "01", id: "02", name: "bar", date: DateTime.Today.AddDays(1));
 
             // Act
             var result = one.Equals(notSameIdentity);
@@ -741,7 +740,7 @@ namespace Rezaee.Data.Iranseda.UnitTests
         {
             // Arrange
             Episode one =
-                new(identity: (channelId: "01", episodeId: "01"), name: "foo", date: DateTime.Today)
+                new(channelId: "01", id: "01", name: "foo", date: DateTime.Today)
                 {
                     Partitions = new()
                     {
@@ -750,7 +749,7 @@ namespace Rezaee.Data.Iranseda.UnitTests
                     }
                 };
             Episode sameOne =
-                new(identity: (channelId: "01", episodeId: "01"), name: "foo", date: DateTime.Today)
+                new(channelId: "01", id: "01", name: "foo", date: DateTime.Today)
                 {
                     Partitions = new()
                     {
@@ -771,7 +770,7 @@ namespace Rezaee.Data.Iranseda.UnitTests
         {
             // Arrange
             Episode one =
-                new(identity: (channelId: "01", episodeId: "01"), name: "foo", date: DateTime.Today)
+                new(channelId: "01", id: "01", name: "foo", date: DateTime.Today)
                 {
                     Partitions = new()
                     {
@@ -780,7 +779,7 @@ namespace Rezaee.Data.Iranseda.UnitTests
                     }
                 };
             Episode notSamePartitions =
-                new(identity: (channelId: "01", episodeId: "01"), name: "foo", date: DateTime.Today)
+                new(channelId: "01", id: "01", name: "foo", date: DateTime.Today)
                 {
                     Partitions = new()
                     {
@@ -803,9 +802,9 @@ namespace Rezaee.Data.Iranseda.UnitTests
         {
             // Arrange
             Episode one =
-                new(identity: (channelId: "01", episodeId: "01"), name: "foo", date: DateTime.Today);
+                new(channelId: "01", id: "01", name: "foo", date: DateTime.Today);
             Episode sameOne =
-                new(identity: (channelId: "01", episodeId: "01"), name: "foo", date: DateTime.Today);
+                new(channelId: "01", id: "01", name: "foo", date: DateTime.Today);
 
             // Act
             var hashOne = one.GetHashCode();
@@ -820,9 +819,9 @@ namespace Rezaee.Data.Iranseda.UnitTests
         {
             // Arrange
             Episode one =
-                new(identity: (channelId: "01", episodeId: "01"), name: "foo", date: DateTime.Today);
+                new(channelId: "01", id: "01", name: "foo", date: DateTime.Today);
             Episode notSameIdentity =
-                new(identity: (channelId: "01", episodeId: "02"), name: "bar", date: DateTime.Today.AddDays(1));
+                new(channelId: "01", id: "02", name: "bar", date: DateTime.Today.AddDays(1));
 
             // Act
             var hashOne = one.GetHashCode();
@@ -837,7 +836,7 @@ namespace Rezaee.Data.Iranseda.UnitTests
         {
             // Arrange
             Episode one =
-                new(identity: (channelId: "01", episodeId: "01"), name: "foo", date: DateTime.Today)
+                new(channelId: "01", id: "01", name: "foo", date: DateTime.Today)
                 {
                     Partitions = new()
                     {
@@ -846,7 +845,7 @@ namespace Rezaee.Data.Iranseda.UnitTests
                     }
                 };
             Episode sameOne =
-                new(identity: (channelId: "01", episodeId: "01"), name: "foo", date: DateTime.Today)
+                new(channelId: "01", id: "01", name: "foo", date: DateTime.Today)
                 {
                     Partitions = new()
                     {
@@ -868,7 +867,7 @@ namespace Rezaee.Data.Iranseda.UnitTests
         {
             // Arrange
             Episode one =
-                new(identity: (channelId: "01", episodeId: "01"), name: "foo", date: DateTime.Today)
+                new(channelId: "01", id: "01", name: "foo", date: DateTime.Today)
                 {
                     Partitions = new()
                     {
@@ -877,7 +876,7 @@ namespace Rezaee.Data.Iranseda.UnitTests
                     }
                 };
             Episode notSameChilds =
-                new(identity: (channelId: "01", episodeId: "01"), name: "foo", date: DateTime.Today)
+                new(channelId: "01", id: "01", name: "foo", date: DateTime.Today)
                 {
                     Partitions = new()
                     {

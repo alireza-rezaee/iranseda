@@ -1,5 +1,4 @@
 ﻿using Rezaee.Data.Iranseda.Configurations;
-using static Rezaee.Data.Iranseda.Helpers.UrlHelper;
 
 namespace Rezaee.Data.Iranseda.UnitTests
 {
@@ -60,12 +59,12 @@ namespace Rezaee.Data.Iranseda.UnitTests
             Channel one =
                 new(id: "01", name: "foo", programmes: new()
                 {
-                    new Programme(identity: (channelId: "01", programmeId: "01"), name: "bar")
+                    new Programme(channelId: "01", id: "01", name: "bar")
                 });
             Channel sameOne =
                 new(id: "01", name: "foo", programmes: new()
                 {
-                    new Programme(identity: (channelId: "01", programmeId: "01"), name: "bar")
+                    new Programme(channelId: "01", id: "01", name: "bar")
                 });
 
             // Act
@@ -82,12 +81,12 @@ namespace Rezaee.Data.Iranseda.UnitTests
             Channel one =
                 new(id: "01", name: "foo", programmes: new()
                 {
-                    new Programme(identity: (channelId: "01", programmeId: "01"), name: "bar")
+                    new Programme(channelId: "01", id: "01", name: "bar")
                 });
             Channel notSameChilds =
                 new(id: "01", name: "foo", programmes: new()
                 {
-                    new Programme(identity: (channelId: "01", programmeId: "02"), name: "baz")
+                    new Programme(channelId: "01", id: "02", name: "baz")
                 });
 
             // Act
@@ -256,14 +255,14 @@ namespace Rezaee.Data.Iranseda.UnitTests
             Channel one =
                 new(id: "01", name: "foo", programmes: new()
                 {
-                    new(identity: (channelId: "01", programmeId: "01"), name: "bar"),
-                    new(identity: (channelId: "01", programmeId: "02"), name: "baz"),
+                    new(channelId: "01", id: "01", name: "bar"),
+                    new(channelId: "01", id: "02", name: "baz"),
                 });
             Channel sameOne =
                 new(id: "01", name: "foo", programmes: new()
                 {
-                    new(identity: (channelId: "01", programmeId: "01"), name: "bar"),
-                    new(identity: (channelId: "01", programmeId: "02"), name: "baz"),
+                    new(channelId: "01", id: "01", name: "bar"),
+                    new(channelId: "01", id: "02", name: "baz"),
                 });
 
             // Act
@@ -281,14 +280,14 @@ namespace Rezaee.Data.Iranseda.UnitTests
             Channel one =
                 new(id: "01", name: "foo", programmes: new()
                 {
-                    new(identity: (channelId: "01", programmeId: "01"), name: "bar"),
-                    new(identity: (channelId: "01", programmeId: "02"), name: "baz"),
+                    new(channelId: "01", id: "01", name: "bar"),
+                    new(channelId: "01", id: "02", name: "baz"),
                 });
             Channel notSameChilds =
                 new(id: "01", name: "foo", programmes: new()
                 {
-                    new(identity: (channelId: "01", programmeId: "03"), name: "qux"),
-                    new(identity: (channelId: "01", programmeId: "04"), name: "quux"),
+                    new(channelId: "01", id: "03", name: "qux"),
+                    new(channelId: "01", id: "04", name: "quux"),
                 });
 
             // Act
@@ -306,14 +305,14 @@ namespace Rezaee.Data.Iranseda.UnitTests
             Channel one =
                 new(id: "01", name: "foo", programmes: new()
                 {
-                    new(identity: (channelId: "01", programmeId: "01"), name: "bar"),
-                    new(identity: (channelId: "01", programmeId: "02"), name: "baz"),
+                    new(channelId: "01", id: "01", name: "bar"),
+                    new(channelId: "01", id: "02", name: "baz"),
                 });
             Channel sameOne =
                 new(id: "01", name: "foo", programmes: new()
                 {
-                    new(identity: (channelId: "01", programmeId: "01"), name: "bar"),
-                    new(identity: (channelId: "01", programmeId: "02"), name: "baz"),
+                    new(channelId: "01", id: "01", name: "bar"),
+                    new(channelId: "01", id: "02", name: "baz"),
                 });
 
             // Act
@@ -331,14 +330,14 @@ namespace Rezaee.Data.Iranseda.UnitTests
             Channel one =
                 new(id: "01", name: "foo", programmes: new()
                 {
-                    new(identity: (channelId: "01", programmeId: "01"), name: "bar"),
-                    new(identity: (channelId: "01", programmeId: "02"), name: "baz"),
+                    new(channelId: "01", id: "01", name: "bar"),
+                    new(channelId: "01", id: "02", name: "baz"),
                 });
             Channel notSameChilds =
                 new(id: "01", name: "foo", programmes: new()
                 {
-                    new(identity: (channelId: "01", programmeId: "03"), name: "qux"),
-                    new(identity: (channelId: "01", programmeId: "04"), name: "quux"),
+                    new(channelId: "01", id: "03", name: "qux"),
+                    new(channelId: "01", id: "04", name: "quux"),
                 });
 
             // Act
@@ -357,14 +356,14 @@ namespace Rezaee.Data.Iranseda.UnitTests
             Channel one =
                 new(id: "01", name: "foo", programmes: new()
                 {
-                    new(identity: (channelId: "01", programmeId: "01"), name: "bar"),
-                    new(identity: (channelId: "01", programmeId: "02"), name: "baz")
+                    new(channelId: "01", id: "01", name: "bar"),
+                    new(channelId: "01", id: "02", name: "baz")
                 });
             Channel sameOne =
                 new(id: "01", name: "foo", programmes: new()
                 {
-                    new(identity: (channelId: "01", programmeId: "01"), name: "bar"),
-                    new(identity: (channelId: "01", programmeId: "02"), name: "baz")
+                    new(channelId: "01", id: "01", name: "bar"),
+                    new(channelId: "01", id: "02", name: "baz")
                 });
 
             // Act && Assert
@@ -378,14 +377,14 @@ namespace Rezaee.Data.Iranseda.UnitTests
             Channel one =
                 new(id: "01", name: "foo", programmes: new()
                 {
-                    new(identity: (channelId: "01", programmeId: "01"), name: "bar"),
-                    new(identity: (channelId: "01", programmeId: "02"), name: "baz")
+                    new(channelId: "01", id: "01", name: "bar"),
+                    new(channelId: "01", id: "02", name: "baz")
                 });
             Channel notSameIdentity =
                 new(id: "02", name: "bar", programmes: new()
                 {
-                    new(identity: (channelId: "01", programmeId: "01"), name: "bar"),
-                    new(identity: (channelId: "01", programmeId: "02"), name: "baz")
+                    new(channelId: "01", id: "01", name: "bar"),
+                    new(channelId: "01", id: "02", name: "baz")
                 });
 
             // Act
@@ -402,22 +401,22 @@ namespace Rezaee.Data.Iranseda.UnitTests
             Channel one =
                 new(id: "01", name: "foo", programmes: new()
                 {
-                    new(identity: (channelId: "01", programmeId: "01"), name: "bar"),
-                    new(identity: (channelId: "01", programmeId: "02"), name: "baz")
+                    new(channelId: "01", id: "01", name: "bar"),
+                    new(channelId: "01", id: "02", name: "baz")
                 });
             Channel notSameChilds =
                 new(id: "01", name: "foo", programmes: new()
                 {
-                    new(identity: (channelId: "01", programmeId: "03"), name: "qux"),
-                    new(identity: (channelId: "01", programmeId: "04"), name: "quux")
+                    new(channelId: "01", id: "03", name: "qux"),
+                    new(channelId: "01", id: "04", name: "quux")
                 });
             Channel mergeActual =
                 new(id: "01", name: "foo", programmes: new()
                 {
-                    new(identity: (channelId: "01", programmeId: "01"), name: "bar"),
-                    new(identity: (channelId: "01", programmeId: "02"), name: "baz"),
-                    new(identity: (channelId: "01", programmeId: "03"), name: "qux"),
-                    new(identity: (channelId: "01", programmeId: "04"), name: "quux")
+                    new(channelId: "01", id: "01", name: "bar"),
+                    new(channelId: "01", id: "02", name: "baz"),
+                    new(channelId: "01", id: "03", name: "qux"),
+                    new(channelId: "01", id: "04", name: "quux")
                 });
 
             // Act
@@ -485,12 +484,12 @@ namespace Rezaee.Data.Iranseda.UnitTests
             Channel one =
                 new(id: "01", name: "foo", programmes: new()
                 {
-                    new Programme(identity: (channelId: "01", programmeId: "01"), name: "bar")
+                    new Programme(channelId: "01", id: "01", name: "bar")
                 });
             Channel sameOne =
                 new(id: "01", name: "foo", programmes: new()
                 {
-                    new Programme(identity: (channelId: "01", programmeId: "01"), name: "bar")
+                    new Programme(channelId: "01", id: "01", name: "bar")
                 });
 
             // Act
@@ -507,12 +506,12 @@ namespace Rezaee.Data.Iranseda.UnitTests
             Channel one =
                 new(id: "01", name: "foo", programmes: new()
                 {
-                    new Programme(identity: (channelId: "01", programmeId: "01"), name: "bar")
+                    new Programme(channelId: "01", id: "01", name: "bar")
                 });
             Channel notSameChilds =
                 new(id: "01", name: "foo", programmes: new()
                 {
-                    new Programme(identity: (channelId: "01", programmeId: "02"), name: "baz")
+                    new Programme(channelId: "01", id: "02", name: "baz")
                 });
 
             // Act
@@ -578,12 +577,12 @@ namespace Rezaee.Data.Iranseda.UnitTests
             Channel one =
                 new(id: "01", name: "foo", programmes: new()
                 {
-                    new Programme(identity: (channelId: "01", programmeId: "01"), name: "bar")
+                    new Programme(channelId: "01", id: "01", name: "bar")
                 });
             Channel sameOne =
                 new(id: "01", name: "foo", programmes: new()
                 {
-                    new Programme(identity: (channelId: "01", programmeId: "01"), name: "bar")
+                    new Programme(channelId: "01", id: "01", name: "bar")
                 });
 
             // Act
@@ -600,12 +599,12 @@ namespace Rezaee.Data.Iranseda.UnitTests
             Channel one =
                 new(id: "01", name: "foo", programmes: new()
                 {
-                    new Programme(identity: (channelId: "01", programmeId: "01"), name: "bar")
+                    new Programme(channelId: "01", id: "01", name: "bar")
                 });
             Channel notSameChilds =
                 new(id: "01", name: "foo", programmes: new()
                 {
-                    new Programme(identity: (channelId: "01", programmeId: "02"), name: "baz")
+                    new Programme(channelId: "01", id: "02", name: "baz")
                 });
 
             // Act
@@ -671,12 +670,12 @@ namespace Rezaee.Data.Iranseda.UnitTests
             Channel one =
                 new(id: "01", name: "foo", programmes: new()
                 {
-                    new Programme(identity: (channelId: "01", programmeId: "01"), name: "bar")
+                    new Programme(channelId: "01", id: "01", name: "bar")
                 });
             Channel sameOne =
                 new(id: "01", name: "foo", programmes: new()
                 {
-                    new Programme(identity: (channelId: "01", programmeId: "01"), name: "bar")
+                    new Programme(channelId: "01", id: "01", name: "bar")
                 });
 
             // Act
@@ -693,12 +692,12 @@ namespace Rezaee.Data.Iranseda.UnitTests
             Channel one =
                 new(id: "01", name: "foo", programmes: new()
                 {
-                    new Programme(identity: (channelId: "01", programmeId: "01"), name: "bar")
+                    new Programme(channelId: "01", id: "01", name: "bar")
                 });
             Channel notSameChilds =
                 new(id: "01", name: "foo", programmes: new()
                 {
-                    new Programme(identity: (channelId: "01", programmeId: "02"), name: "baz")
+                    new Programme(channelId: "01", id: "02", name: "baz")
                 });
 
             // Act
@@ -751,12 +750,12 @@ namespace Rezaee.Data.Iranseda.UnitTests
             Channel one =
                 new(id: "01", name: "foo", programmes: new()
                 {
-                    new Programme(identity: (channelId: "01", programmeId: "01"), name: "bar")
+                    new Programme(channelId: "01", id: "01", name: "bar")
                 });
             Channel sameOne =
                 new(id: "01", name: "foo", programmes: new()
                 {
-                    new Programme(identity: (channelId: "01", programmeId: "01"), name: "bar")
+                    new Programme(channelId: "01", id: "01", name: "bar")
                 });
 
 
@@ -775,12 +774,12 @@ namespace Rezaee.Data.Iranseda.UnitTests
             Channel one =
                 new(id: "01", name: "foo", programmes: new()
                 {
-                    new Programme(identity: (channelId: "01", programmeId: "01"), name: "bar")
+                    new Programme(channelId: "01", id: "01", name: "bar")
                 });
             Channel notSameChilds =
                 new(id: "01", name: "foo", programmes: new()
                 {
-                    new Programme(identity: (channelId: "01", programmeId: "02"), name: "baz")
+                    new Programme(channelId: "01", id: "02", name: "baz")
                 });
 
             // Act
