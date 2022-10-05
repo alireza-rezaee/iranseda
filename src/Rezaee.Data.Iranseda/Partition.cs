@@ -19,8 +19,11 @@ namespace Rezaee.Data.Iranseda
     /// </summary>
     public class Partition : BaseCatalogue<Partition?>
     {
+        #region Fields
         private DateTime _lastModified;
+        #endregion
 
+        #region Properties
         /// <summary>
         /// The time when this partition is recorded.
         /// </summary>
@@ -30,6 +33,11 @@ namespace Rezaee.Data.Iranseda
         /// Mirrors to download the file of this partition.
         /// </summary>
         public List<Uri> Mirrors { get; set; }
+
+        /// <summary>
+        /// Download information for the current partition.
+        /// </summary>
+        public Download? Download { get; set; }
 
         /// <inheritdoc/>
         [JsonConverter(typeof(DateTimeLocalJsonConverter))]
@@ -45,11 +53,6 @@ namespace Rezaee.Data.Iranseda
         }
 
         /// <summary>
-        /// Download information for the current partition.
-        /// </summary>
-        public Download? Download { get; set; }
-
-        /// <summary>
         /// The <see cref="Time">Time</see> property of the current partition is used as its unique identifier.
         /// </summary>
         [JsonIgnore(Condition = JsonIgnoreCondition.Always)]
@@ -60,7 +63,9 @@ namespace Rezaee.Data.Iranseda
         /// </summary>
         [JsonIgnore(Condition = JsonIgnoreCondition.Always)]
         public Episode? Episode { get; set; }
+        #endregion
 
+        #region Constructors
         /// <summary>
         /// Create a new <see cref="Partition"/> instance with <paramref name="time"/>,
         /// <paramref name="mirrors"/> and the optional <paramref name="download"/>.
@@ -83,7 +88,9 @@ namespace Rezaee.Data.Iranseda
         [JsonConstructor]
         public Partition(string time, List<Uri> mirrors, DateTime lastModified, Download? download = null)
             => (Mirrors, Time, LastModified, Download) = (mirrors, time, lastModified, download);
+        #endregion
 
+        #region Methods
         /// <summary>
         /// Download this partition.
         /// </summary>
@@ -126,17 +133,17 @@ namespace Rezaee.Data.Iranseda
             client ??= new HttpClient();
             using var semaphore = new SemaphoreSlim(limit, limit);
             var tasks = partitions.Select(async partition =>
+            {
+                await semaphore.WaitAsync().ConfigureAwait(false);
+                try
                 {
-                    await semaphore.WaitAsync().ConfigureAwait(false);
-                    try
-                    {
-                        await DownloadPartitionAsync(partition, directory, skipIfExists, preferredMirror, client: client);
-                    }
-                    finally
-                    {
-                        semaphore.Release();
-                    }
-                }).ToArray();
+                    await DownloadPartitionAsync(partition, directory, skipIfExists, preferredMirror, client: client);
+                }
+                finally
+                {
+                    semaphore.Release();
+                }
+            }).ToArray();
             await Task.WhenAll(tasks).ConfigureAwait(false);
         }
 
@@ -388,5 +395,6 @@ namespace Rezaee.Data.Iranseda
         /// <inheritdoc/>
         public override int GetHashCode()
             => (Identity, Download, Mirrors.GetOrderIndependentHashCode()).GetHashCode();
+        #endregion
     }
 }

@@ -22,12 +22,16 @@ namespace Rezaee.Data.Iranseda
     /// </summary>
     public class Programme : BaseCatalogue<Programme?>
     {
+        #region Fields
         private DateTime _lastModified;
+        #endregion
 
+        #region Properties
         /// <summary>
         /// A unique identifier that can be seen in the <see cref="Url">Url</see> of this programme's page in Iranseda.
         /// </summary>
-        public string Id {
+        public string Id
+        {
             get
             {
                 var queryString = HttpUtility.ParseQueryString(Url.Query);
@@ -39,14 +43,19 @@ namespace Rezaee.Data.Iranseda
         }
 
         /// <summary>
+        /// The name of the current programme.
+        /// </summary>
+        public string Name { get; set; }
+
+        /// <summary>
         /// The URL of the current programme.
         /// </summary>
         public Uri Url { get; set; }
 
         /// <summary>
-        /// The name of the current programme.
+        /// Episodes in the current programme.
         /// </summary>
-        public string Name { get; set; }
+        public List<Episode>? Episodes { get; set; }
 
         /// <inheritdoc/>
         [JsonConverter(typeof(DateTimeLocalJsonConverter))]
@@ -66,11 +75,6 @@ namespace Rezaee.Data.Iranseda
         }
 
         /// <summary>
-        /// Episodes in the current programme.
-        /// </summary>
-        public List<Episode>? Episodes { get; set; }
-
-        /// <summary>
         /// The <see cref="Id">Id</see> property of the current programme is used as its unique identifier.
         /// </summary>
         [JsonIgnore(Condition = JsonIgnoreCondition.Always)]
@@ -81,7 +85,9 @@ namespace Rezaee.Data.Iranseda
         /// </summary>
         [JsonIgnore(Condition = JsonIgnoreCondition.Always)]
         public Channel? Channel { get; set; }
+        #endregion
 
+        #region Constructors
         /// <summary>
         /// Create a new <see cref="Programme"/> instance with <paramref name="url"/>,
         /// <paramref name="name"/> and the optional desired <paramref name="episodes"/> in it.
@@ -104,7 +110,9 @@ namespace Rezaee.Data.Iranseda
         [JsonConstructor]
         public Programme(Uri url, string name, DateTime lastModified, List<Episode>? episodes = null)
             => (Url, Name, LastModified, Episodes) = (url, name, lastModified, episodes);
+        #endregion
 
+        #region Methods
         /// <summary>
         /// Load all the episodes of this programme from <see href="http://radio.iranseda.ir/">Iranseda</see> website.
         /// </summary>
@@ -343,5 +351,6 @@ namespace Rezaee.Data.Iranseda
         /// <inheritdoc/>
         public override int GetHashCode()
             => (Identity, Episodes?.GetOrderIndependentHashCode()).GetHashCode();
+        #endregion
     }
 }

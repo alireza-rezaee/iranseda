@@ -21,8 +21,11 @@ namespace Rezaee.Data.Iranseda
     /// </summary>
     public class Episode : BaseCatalogue<Episode?>
     {
+        #region Fields
         private DateTime _lastModified;
+        #endregion
 
+        #region Properties
         /// <summary>
         /// A unique identifier that can be seen in the <see cref="Url">Url</see> of this episode's page in Iranseda.
         /// </summary>
@@ -39,11 +42,6 @@ namespace Rezaee.Data.Iranseda
         }
 
         /// <summary>
-        /// The URL of the current episode.
-        /// </summary>
-        public Uri Url { get; set; }
-
-        /// <summary>
         /// The name of the current episode.
         /// </summary>
         public string Name { get; set; }
@@ -53,6 +51,16 @@ namespace Rezaee.Data.Iranseda
         /// </summary>
         [JsonConverter(typeof(DateLocalJsonConverter))]
         public DateTime Date { get; set; }
+
+        /// <summary>
+        /// The URL of the current episode.
+        /// </summary>
+        public Uri Url { get; set; }
+
+        /// <summary>
+        /// Partitions in the current episode.
+        /// </summary>
+        public List<Partition>? Partitions { get; set; }
 
         /// <inheritdoc/>
         [JsonConverter(typeof(DateTimeLocalJsonConverter))]
@@ -72,11 +80,6 @@ namespace Rezaee.Data.Iranseda
         }
 
         /// <summary>
-        /// Partitions in the current episode.
-        /// </summary>
-        public List<Partition>? Partitions { get; set; }
-
-        /// <summary>
         /// The <see cref="Url">Url</see> property of the current episode is used as its unique identifier.
         /// </summary>
         [JsonIgnore(Condition = JsonIgnoreCondition.Always)]
@@ -87,7 +90,9 @@ namespace Rezaee.Data.Iranseda
         /// </summary>
         [JsonIgnore(Condition = JsonIgnoreCondition.Always)]
         public Programme? Programme { get; set; }
+        #endregion
 
+        #region Constructors
         /// <summary>
         /// Create a new <see cref="Episode"/> instance with <paramref name="url"/>,
         /// <paramref name="name"/>, <paramref name="date"/>, and the optional desired
@@ -113,7 +118,9 @@ namespace Rezaee.Data.Iranseda
         [JsonConstructor]
         public Episode(Uri url, string name, DateTime date, DateTime lastModified, List<Partition>? partitions = null)
             => (Url, Name, Date, LastModified, Partitions) = (url, name, date, lastModified, partitions);
+        #endregion
 
+        #region Methods
         /// <summary>
         /// Load all the partitions of this episode from <see href="http://radio.iranseda.ir/">Iranseda</see> website.
         /// </summary>
@@ -342,5 +349,6 @@ namespace Rezaee.Data.Iranseda
         /// <inheritdoc/>
         public override int GetHashCode()
             => (Identity, Partitions?.GetOrderIndependentHashCode()).GetHashCode();
+        #endregion
     }
 }

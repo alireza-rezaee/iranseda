@@ -10,12 +10,7 @@ namespace Rezaee.Data.Iranseda
     /// </summary>
     public class Download
     {
-        /// <summary>
-        /// When the file is downloaded.
-        /// </summary>
-        [JsonConverter(typeof(DateTimeLocalJsonConverter))]
-        public DateTime LastModified { get; set; }
-
+        #region Properties
         /// <summary>
         /// The URL of the downloaded file.
         /// </summary>
@@ -32,6 +27,14 @@ namespace Rezaee.Data.Iranseda
         [JsonIgnore(Condition = JsonIgnoreCondition.Always)]
         internal (Uri Url, string Path) Identity { get => (Url, Path); }
 
+        /// <summary>
+        /// When the file is downloaded.
+        /// </summary>
+        [JsonConverter(typeof(DateTimeLocalJsonConverter))]
+        public DateTime LastModified { get; set; }
+        #endregion
+
+        #region Constructors
         /// <summary>
         /// Create an instance of <see cref="Download"/> with <see cref="Url">Url</see> and
         /// <see cref="Path">Path</see> properties of the downloaded file.
@@ -51,7 +54,9 @@ namespace Rezaee.Data.Iranseda
         [JsonConstructor]
         public Download(Uri url, string path, DateTime lastModified)
             => (Url, Path, LastModified) = (url, path, lastModified);
+        #endregion
 
+        #region Methods
         /// <summary>
         /// It is used to compare the equality of two <see cref="Download"/>ed files.
         /// </summary>
@@ -96,5 +101,6 @@ namespace Rezaee.Data.Iranseda
         /// <inheritdoc/>
         public override int GetHashCode()
             => Identity.GetHashCode();
+        #endregion
     }
 }

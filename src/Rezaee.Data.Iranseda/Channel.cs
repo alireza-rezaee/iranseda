@@ -20,17 +20,16 @@ namespace Rezaee.Data.Iranseda
     /// </summary>
     public class Channel : BaseCatalogue<Channel?>
     {
+        #region Fields
         private DateTime _lastModified;
+        #endregion
 
-        /// <summary>
-        /// The URL of the current channel.
-        /// </summary>
-        public Uri Url { get; set; }
-
+        #region Properties
         /// <summary>
         /// A unique identifier that can be seen in the <see cref="Url">Url</see> of this channel's page in Iranseda.
         /// </summary>
-        public string Id {
+        public string Id
+        {
             get
             {
                 var queryString = HttpUtility.ParseQueryString(Url.Query);
@@ -47,12 +46,22 @@ namespace Rezaee.Data.Iranseda
         public string Name { get; set; }
 
         /// <summary>
+        /// The URL of the current channel.
+        /// </summary>
+        public Uri Url { get; set; }
+
+        /// <summary>
         /// The URL of the list page of all programmes within the current channel.
         /// </summary>
         public Uri ProgrammesUrl
         {
             get => new Uri(Url.ToString().Replace("live", "programlist"));
         }
+
+        /// <summary>
+        /// Programmes in the current channel.
+        /// </summary>
+        public List<Programme>? Programmes { get; set; }
 
         /// <inheritdoc/>
         [JsonConverter(typeof(DateTimeLocalJsonConverter))]
@@ -82,12 +91,9 @@ namespace Rezaee.Data.Iranseda
         /// </summary>
         [JsonIgnore(Condition = JsonIgnoreCondition.Always)]
         public Catalogue? Catalogue { get; set; }
+        #endregion
 
-        /// <summary>
-        /// Programmes in the current channel.
-        /// </summary>
-        public List<Programme>? Programmes { get; set; }
-
+        #region Constructors
         /// <summary>
         /// Create a new <see cref="Channel"/> instance with <paramref name="url"/>,
         /// <paramref name="name"/> and the optional desired <paramref name="programmes"/> in it.
@@ -110,7 +116,9 @@ namespace Rezaee.Data.Iranseda
         [JsonConstructor]
         public Channel(Uri url, string name, DateTime lastModified, List<Programme>? programmes = null)
             => (Name, Url, LastModified, Programmes) = (name, url, lastModified, programmes);
+        #endregion
 
+        #region Methods
         /// <summary>
         /// Load all the programmes of this channel from <see href="http://radio.iranseda.ir/">Iranseda</see> website.
         /// </summary>
@@ -350,5 +358,6 @@ namespace Rezaee.Data.Iranseda
         /// <inheritdoc/>
         public override int GetHashCode()
             => (Identity, Programmes?.GetOrderIndependentHashCode()).GetHashCode();
+        #endregion
     }
 }

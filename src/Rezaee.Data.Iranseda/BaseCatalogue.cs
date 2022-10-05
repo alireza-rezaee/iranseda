@@ -7,12 +7,15 @@ namespace Rezaee.Data.Iranseda
 {
     public abstract class BaseCatalogue<TValue>
     {
+        #region Properties
         /// <summary>
         /// When the last changes were applied.
         /// </summary>
         [JsonConverter(typeof(DateTimeLocalJsonConverter))]
         public abstract DateTime LastModified { get; set; }
+        #endregion
 
+        #region Methods
         /// <inheritdoc cref="JsonSerializer.Serialize{TValue}(TValue, JsonSerializerOptions?)"/>
         public static string Serialize(TValue value, JsonSerializerOptions? options = null)
             => JsonSerializer.Serialize(value, options);
@@ -28,5 +31,6 @@ namespace Rezaee.Data.Iranseda
         /// <returns>A new <typeparamref name="TValue"/> object with same value.</returns>
         protected TValue Clone()
             => Deserialize(Serialize((TValue)Convert.ChangeType(this, typeof(TValue))))!;
+        #endregion
     }
 }

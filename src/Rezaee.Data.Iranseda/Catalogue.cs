@@ -23,7 +23,15 @@ namespace Rezaee.Data.Iranseda
     /// </summary>
     public class Catalogue : BaseCatalogue<Catalogue?>
     {
+        #region Fields
         private DateTime _lastModified;
+        #endregion
+
+        #region Properties
+        /// <summary>
+        /// Channels in the current catalogue.
+        /// </summary>
+        public List<Channel>? Channels { get; set; }
 
         /// <inheritdoc/>
         [JsonConverter(typeof(DateTimeLocalJsonConverter))]
@@ -41,12 +49,9 @@ namespace Rezaee.Data.Iranseda
             }
             set => _lastModified = value;
         }
+        #endregion
 
-        /// <summary>
-        /// Channels in the current catalogue.
-        /// </summary>
-        public List<Channel>? Channels { get; set; }
-
+        #region Constructors
         /// <summary>
         /// Create a new empty <see cref="Catalogue"/> instance.
         /// </summary>
@@ -85,7 +90,9 @@ namespace Rezaee.Data.Iranseda
         [JsonConstructor]
         public Catalogue(List<Channel> channels, DateTime lastModified)
             => (Channels, LastModified) = (channels, lastModified);
+        #endregion
 
+        #region Methods
         /// <summary>
         /// Load all the available channels from <see href="http://radio.iranseda.ir/">Iranseda</see> website.
         /// </summary>
@@ -191,7 +198,6 @@ namespace Rezaee.Data.Iranseda
 
             await SaveAsync(path: cataloguePath, options);
         }
-
 
         /// <summary>
         /// Delete all downloaded files of this catalogue recursively.
@@ -413,5 +419,6 @@ namespace Rezaee.Data.Iranseda
         /// <inheritdoc/>
         public override int GetHashCode()
             => Channels?.GetOrderIndependentHashCode() ?? 0;
+        #endregion
     }
 }

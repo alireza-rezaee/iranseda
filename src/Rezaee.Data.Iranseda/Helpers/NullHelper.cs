@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Rezaee.Data.Iranseda.Helpers
+﻿namespace Rezaee.Data.Iranseda.Helpers
 {
     /// <summary>
     /// The result of comparing two objects in terms of being null or not.
