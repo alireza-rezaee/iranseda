@@ -6,6 +6,7 @@ on:
       - main
       - dev
     paths:
+      - 'samples/**'
       - 'src/**'
       - 'tests/**'
       - 'Rezaee.Data.Iranseda.sln'
@@ -15,6 +16,7 @@ on:
       - main
       - dev
     paths:
+      - 'samples/**'
       - 'src/**'
       - 'tests/**'
       - 'Rezaee.Data.Iranseda.sln'
