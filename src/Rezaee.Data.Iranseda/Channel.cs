@@ -41,14 +41,6 @@ namespace Rezaee.Data.Iranseda
         public Uri Url { get => UrlHelper.MakeChannelUrl(Id); }
 
         /// <summary>
-        /// The URL of the list page of all programmes within the current channel.
-        /// </summary>
-        public Uri ProgrammesUrl
-        {
-            get => new Uri(Url.ToString().Replace("live", "programlist"));
-        }
-
-        /// <summary>
         /// Programmes in the current channel.
         /// </summary>
         public List<Programme>? Programmes { get; set; }
@@ -113,7 +105,7 @@ namespace Rezaee.Data.Iranseda
                         OverrideEncoding = System.Text.Encoding.UTF8
                     };
 
-                    HtmlDocument htmlDoc = htmlWeb.Load(ProgrammesUrl.AbsoluteUri, "GET", proxy, credentials);
+                    HtmlDocument htmlDoc = htmlWeb.Load(Url.AbsoluteUri, "GET", proxy, credentials);
 
                     HtmlNodeCollection htmlNodes = htmlDoc.DocumentNode.SelectNodes("//section[@id='ProgramList']//article");
 

@@ -7,7 +7,7 @@ namespace Rezaee.Data.Iranseda.Helpers
     public static class UrlHelper
     {
         public static Uri MakeChannelUrl(string ch)
-            => new Uri($"http://radio.iranseda.ir/live/?VALID=TRUE&ch={ch}");
+            => new Uri($"http://radio.iranseda.ir/programlist/?VALID=TRUE&ch={ch}");
 
         public static Uri MakeProgrammeUrl(string ch, string m)
             => new Uri($"http://radio.iranseda.ir/Program/?VALID=TRUE&ch={ch}&m={m}");
