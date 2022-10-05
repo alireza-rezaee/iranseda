@@ -11,9 +11,9 @@ namespace Rezaee.Data.Iranseda.UnitTests
         {
             // Arrange
             Channel one =
-                new(url: MakeChannelUrl("01"), name: "foo");
+                new(id: "01", name: "foo");
             Channel sameOne =
-                new(url: MakeChannelUrl("01"), name: "foo");
+                new(id: "01", name: "foo");
 
             // Act
             var result = Channel.Equals(one, sameOne);
@@ -27,7 +27,7 @@ namespace Rezaee.Data.Iranseda.UnitTests
         {
             // Arrange
             Channel notNull =
-                new(url: MakeChannelUrl("01"), name: "foo");
+                new(id: "01", name: "foo");
             Channel? @null = null;
 
             // Act
@@ -42,9 +42,9 @@ namespace Rezaee.Data.Iranseda.UnitTests
         {
             // Arrange
             Channel one =
-                new(url: MakeChannelUrl("01"), name: "foo");
+                new(id: "01", name: "foo");
             Channel notSameIdentity =
-                new(url: MakeChannelUrl("02"), name: "bar");
+                new(id: "02", name: "bar");
 
             // Act
             var result = Channel.Equals(one, notSameIdentity);
@@ -58,14 +58,14 @@ namespace Rezaee.Data.Iranseda.UnitTests
         {
             // Arrange
             Channel one =
-                new(url: MakeChannelUrl("01"), name: "foo", programmes: new()
+                new(id: "01", name: "foo", programmes: new()
                 {
-                    new Programme(url: MakeProgrammeUrl(ch: "01", m: "01"), name: "bar")
+                    new Programme(identity: (channelId: "01", programmeId: "01"), name: "bar")
                 });
             Channel sameOne =
-                new(url: MakeChannelUrl("01"), name: "foo", programmes: new()
+                new(id: "01", name: "foo", programmes: new()
                 {
-                    new Programme(url: MakeProgrammeUrl(ch: "01", m: "01"), name: "bar")
+                    new Programme(identity: (channelId: "01", programmeId: "01"), name: "bar")
                 });
 
             // Act
@@ -80,14 +80,14 @@ namespace Rezaee.Data.Iranseda.UnitTests
         {
             // Arrange
             Channel one =
-                new(url: MakeChannelUrl("01"), name: "foo", programmes: new()
+                new(id: "01", name: "foo", programmes: new()
                 {
-                    new Programme(url: MakeProgrammeUrl(ch: "01", m: "01"), name: "bar")
+                    new Programme(identity: (channelId: "01", programmeId: "01"), name: "bar")
                 });
             Channel notSameChilds =
-                new(url: MakeChannelUrl("01"), name: "foo", programmes: new()
+                new(id: "01", name: "foo", programmes: new()
                 {
-                    new Programme(url: MakeProgrammeUrl(ch: "01", m: "02"), name: "baz")
+                    new Programme(identity: (channelId: "01", programmeId: "02"), name: "baz")
                 });
 
             // Act
@@ -103,9 +103,9 @@ namespace Rezaee.Data.Iranseda.UnitTests
             // Arrange
             ChannelsEqualityConfiguration trueCheckIdentity = new() { CheckIdentity = true };
             Channel one =
-                new(url: MakeChannelUrl("01"), name: "foo");
+                new(id: "01", name: "foo");
             Channel sameOne =
-                new(url: MakeChannelUrl("01"), name: "foo");
+                new(id: "01", name: "foo");
 
             // Act
             var result = Channel.Equals(one, sameOne, config: trueCheckIdentity);
@@ -120,9 +120,9 @@ namespace Rezaee.Data.Iranseda.UnitTests
             // Arrange
             ChannelsEqualityConfiguration trueCheckIdentity = new() { CheckIdentity = true };
             Channel one =
-                new(url: MakeChannelUrl("01"), name: "foo");
+                new(id: "01", name: "foo");
             Channel notSameIdentity =
-                new(url: MakeChannelUrl("02"), name: "bar");
+                new(id: "02", name: "bar");
 
             // Act
             var result = Channel.Equals(one, notSameIdentity, config: trueCheckIdentity);
@@ -137,9 +137,9 @@ namespace Rezaee.Data.Iranseda.UnitTests
             // Arrange
             ChannelsEqualityConfiguration falseCheckIdentity = new() { CheckIdentity = false };
             Channel one =
-                new(url: MakeChannelUrl("01"), name: "foo");
+                new(id: "01", name: "foo");
             Channel sameOne =
-                new(url: MakeChannelUrl("01"), name: "foo");
+                new(id: "01", name: "foo");
 
             // Act
             var result = Channel.Equals(one, sameOne, config: falseCheckIdentity);
@@ -154,9 +154,9 @@ namespace Rezaee.Data.Iranseda.UnitTests
             // Arrange
             ChannelsEqualityConfiguration falseCheckIdentity = new() { CheckIdentity = false };
             Channel one =
-                new(url: MakeChannelUrl("01"), name: "foo");
+                new(id: "01", name: "foo");
             Channel notSameIdentity =
-                new(url: MakeChannelUrl("02"), name: "bar");
+                new(id: "02", name: "bar");
 
             // Act
             var result = Channel.Equals(one, notSameIdentity, config: falseCheckIdentity);
@@ -171,10 +171,10 @@ namespace Rezaee.Data.Iranseda.UnitTests
             // Arrange
             ChannelsEqualityConfiguration trueCheckParents = new() { CheckParents = true };
             Channel one =
-                new(url: MakeChannelUrl("01"), name: "foo") { Catalogue = new() };
+                new(id: "01", name: "foo") { Catalogue = new() };
             one.Catalogue.Channels = new() { one };
             Channel sameParent =
-                new(url: MakeChannelUrl("01"), name: "foo") { Catalogue = new() };
+                new(id: "01", name: "foo") { Catalogue = new() };
             sameParent.Catalogue.Channels = new() { sameParent };
 
             // Act
@@ -190,15 +190,15 @@ namespace Rezaee.Data.Iranseda.UnitTests
             // Arrange
             ChannelsEqualityConfiguration trueCheckParents = new() { CheckParents = true };
             Channel one =
-                new(url: MakeChannelUrl("01"), name: "foo") { Catalogue = new() };
+                new(id: "01", name: "foo") { Catalogue = new() };
             one.Catalogue.Channels = new() { one };
 
             Channel notSameParents =
-                new(url: MakeChannelUrl("01"), name: "foo") { Catalogue = new() };
+                new(id: "01", name: "foo") { Catalogue = new() };
             notSameParents.Catalogue.Channels = new() { notSameParents };
 
             Channel extraChildToMakeParentsDifferent =
-                new(url: MakeChannelUrl("02"), name: "bar");
+                new(id: "02", name: "bar");
             notSameParents.Catalogue.Channels.Add(extraChildToMakeParentsDifferent);
 
             // Act
@@ -214,11 +214,11 @@ namespace Rezaee.Data.Iranseda.UnitTests
             // Arrange
             ChannelsEqualityConfiguration falseCheckParents = new() { CheckParents = false };
             Channel one =
-                new(url: MakeChannelUrl("01"), name: "foo") { Catalogue = new() };
+                new(id: "01", name: "foo") { Catalogue = new() };
             one.Catalogue.Channels = new() { one };
 
             Channel sameParent =
-                new(url: MakeChannelUrl("01"), name: "foo") { Catalogue = new() };
+                new(id: "01", name: "foo") { Catalogue = new() };
             one.Catalogue.Channels = new() { sameParent };
 
             // Act
@@ -234,11 +234,11 @@ namespace Rezaee.Data.Iranseda.UnitTests
             // Arrange
             ChannelsEqualityConfiguration falseCheckParents = new() { CheckParents = false };
             Channel one =
-                new(url: MakeChannelUrl("01"), name: "foo") { Catalogue = new() };
+                new(id: "01", name: "foo") { Catalogue = new() };
             one.Catalogue.Channels = new() { one };
 
             Channel notSameParents =
-                new(url: MakeChannelUrl("01"), name: "foo") { Catalogue = new() };
+                new(id: "01", name: "foo") { Catalogue = new() };
             notSameParents.Catalogue.Channels = new() { one, notSameParents };
 
             // Act
@@ -254,16 +254,16 @@ namespace Rezaee.Data.Iranseda.UnitTests
             // Arrange
             ChannelsEqualityConfiguration trueCheckProgrammesIdentity = new() { ProgrammesConfig = new() { CheckIdentity = true } };
             Channel one =
-                new(url: MakeChannelUrl("01"), name: "foo", programmes: new()
+                new(id: "01", name: "foo", programmes: new()
                 {
-                    new(url: MakeProgrammeUrl(ch: "01", m: "01"), name: "bar"),
-                    new(url: MakeProgrammeUrl(ch: "01", m: "02"), name: "baz"),
+                    new(identity: (channelId: "01", programmeId: "01"), name: "bar"),
+                    new(identity: (channelId: "01", programmeId: "02"), name: "baz"),
                 });
             Channel sameOne =
-                new(url: MakeChannelUrl("01"), name: "foo", programmes: new()
+                new(id: "01", name: "foo", programmes: new()
                 {
-                    new(url: MakeProgrammeUrl(ch: "01", m: "01"), name: "bar"),
-                    new(url: MakeProgrammeUrl(ch: "01", m: "02"), name: "baz"),
+                    new(identity: (channelId: "01", programmeId: "01"), name: "bar"),
+                    new(identity: (channelId: "01", programmeId: "02"), name: "baz"),
                 });
 
             // Act
@@ -279,16 +279,16 @@ namespace Rezaee.Data.Iranseda.UnitTests
             // Arrange
             ChannelsEqualityConfiguration trueCheckProgrammesIdentity = new() { ProgrammesConfig = new() { CheckIdentity = true } };
             Channel one =
-                new(url: MakeChannelUrl("01"), name: "foo", programmes: new()
+                new(id: "01", name: "foo", programmes: new()
                 {
-                    new(url: MakeProgrammeUrl(ch: "01", m: "01"), name: "bar"),
-                    new(url: MakeProgrammeUrl(ch: "01", m: "02"), name: "baz"),
+                    new(identity: (channelId: "01", programmeId: "01"), name: "bar"),
+                    new(identity: (channelId: "01", programmeId: "02"), name: "baz"),
                 });
             Channel notSameChilds =
-                new(url: MakeChannelUrl("01"), name: "foo", programmes: new()
+                new(id: "01", name: "foo", programmes: new()
                 {
-                    new(url: MakeProgrammeUrl(ch: "01", m: "03"), name: "qux"),
-                    new(url: MakeProgrammeUrl(ch: "01", m: "04"), name: "quux"),
+                    new(identity: (channelId: "01", programmeId: "03"), name: "qux"),
+                    new(identity: (channelId: "01", programmeId: "04"), name: "quux"),
                 });
 
             // Act
@@ -304,16 +304,16 @@ namespace Rezaee.Data.Iranseda.UnitTests
             // Arrange
             ChannelsEqualityConfiguration falseCheckProgrammesIdentity = new() { ProgrammesConfig = new() { CheckIdentity = false } };
             Channel one =
-                new(url: MakeChannelUrl("01"), name: "foo", programmes: new()
+                new(id: "01", name: "foo", programmes: new()
                 {
-                    new(url: MakeProgrammeUrl(ch: "01", m: "01"), name: "bar"),
-                    new(url: MakeProgrammeUrl(ch: "01", m: "02"), name: "baz"),
+                    new(identity: (channelId: "01", programmeId: "01"), name: "bar"),
+                    new(identity: (channelId: "01", programmeId: "02"), name: "baz"),
                 });
             Channel sameOne =
-                new(url: MakeChannelUrl("01"), name: "foo", programmes: new()
+                new(id: "01", name: "foo", programmes: new()
                 {
-                    new(url: MakeProgrammeUrl(ch: "01", m: "01"), name: "bar"),
-                    new(url: MakeProgrammeUrl(ch: "01", m: "02"), name: "baz"),
+                    new(identity: (channelId: "01", programmeId: "01"), name: "bar"),
+                    new(identity: (channelId: "01", programmeId: "02"), name: "baz"),
                 });
 
             // Act
@@ -329,16 +329,16 @@ namespace Rezaee.Data.Iranseda.UnitTests
             // Arrange
             ChannelsEqualityConfiguration falseCheckProgrammesIdentity = new() { ProgrammesConfig = new() { CheckIdentity = false } };
             Channel one =
-                new(url: MakeChannelUrl("01"), name: "foo", programmes: new()
+                new(id: "01", name: "foo", programmes: new()
                 {
-                    new(url: MakeProgrammeUrl(ch: "01", m: "01"), name: "bar"),
-                    new(url: MakeProgrammeUrl(ch: "01", m: "02"), name: "baz"),
+                    new(identity: (channelId: "01", programmeId: "01"), name: "bar"),
+                    new(identity: (channelId: "01", programmeId: "02"), name: "baz"),
                 });
             Channel notSameChilds =
-                new(url: MakeChannelUrl("01"), name: "foo", programmes: new()
+                new(id: "01", name: "foo", programmes: new()
                 {
-                    new(url: MakeProgrammeUrl(ch: "01", m: "03"), name: "qux"),
-                    new(url: MakeProgrammeUrl(ch: "01", m: "04"), name: "quux"),
+                    new(identity: (channelId: "01", programmeId: "03"), name: "qux"),
+                    new(identity: (channelId: "01", programmeId: "04"), name: "quux"),
                 });
 
             // Act
@@ -355,16 +355,16 @@ namespace Rezaee.Data.Iranseda.UnitTests
         {
             // Arrange
             Channel one =
-                new(url: MakeChannelUrl("01"), name: "foo", programmes: new()
+                new(id: "01", name: "foo", programmes: new()
                 {
-                    new(url: MakeProgrammeUrl(ch: "01", m: "01"), name: "bar"),
-                    new(url: MakeProgrammeUrl(ch: "01", m: "02"), name: "baz")
+                    new(identity: (channelId: "01", programmeId: "01"), name: "bar"),
+                    new(identity: (channelId: "01", programmeId: "02"), name: "baz")
                 });
             Channel sameOne =
-                new(url: MakeChannelUrl("01"), name: "foo", programmes: new()
+                new(id: "01", name: "foo", programmes: new()
                 {
-                    new(url: MakeProgrammeUrl(ch: "01", m: "01"), name: "bar"),
-                    new(url: MakeProgrammeUrl(ch: "01", m: "02"), name: "baz")
+                    new(identity: (channelId: "01", programmeId: "01"), name: "bar"),
+                    new(identity: (channelId: "01", programmeId: "02"), name: "baz")
                 });
 
             // Act && Assert
@@ -376,16 +376,16 @@ namespace Rezaee.Data.Iranseda.UnitTests
         {
             // Arrange
             Channel one =
-                new(url: MakeChannelUrl("01"), name: "foo", programmes: new()
+                new(id: "01", name: "foo", programmes: new()
                 {
-                    new(url: MakeProgrammeUrl(ch: "01", m: "01"), name: "bar"),
-                    new(url: MakeProgrammeUrl(ch: "01", m: "02"), name: "baz")
+                    new(identity: (channelId: "01", programmeId: "01"), name: "bar"),
+                    new(identity: (channelId: "01", programmeId: "02"), name: "baz")
                 });
             Channel notSameIdentity =
-                new(url: MakeChannelUrl("02"), name: "bar", programmes: new()
+                new(id: "02", name: "bar", programmes: new()
                 {
-                    new(url: MakeProgrammeUrl(ch: "01", m: "01"), name: "bar"),
-                    new(url: MakeProgrammeUrl(ch: "01", m: "02"), name: "baz")
+                    new(identity: (channelId: "01", programmeId: "01"), name: "bar"),
+                    new(identity: (channelId: "01", programmeId: "02"), name: "baz")
                 });
 
             // Act
@@ -400,24 +400,24 @@ namespace Rezaee.Data.Iranseda.UnitTests
         {
             // Arrange
             Channel one =
-                new(url: MakeChannelUrl("01"), name: "foo", programmes: new()
+                new(id: "01", name: "foo", programmes: new()
                 {
-                    new(url: MakeProgrammeUrl(ch: "01", m: "01"), name: "bar"),
-                    new(url: MakeProgrammeUrl(ch: "01", m: "02"), name: "baz")
+                    new(identity: (channelId: "01", programmeId: "01"), name: "bar"),
+                    new(identity: (channelId: "01", programmeId: "02"), name: "baz")
                 });
             Channel notSameChilds =
-                new(url: MakeChannelUrl("01"), name: "foo", programmes: new()
+                new(id: "01", name: "foo", programmes: new()
                 {
-                    new(url: MakeProgrammeUrl(ch: "01", m: "03"), name: "qux"),
-                    new(url: MakeProgrammeUrl(ch: "01", m: "04"), name: "quux")
+                    new(identity: (channelId: "01", programmeId: "03"), name: "qux"),
+                    new(identity: (channelId: "01", programmeId: "04"), name: "quux")
                 });
             Channel mergeActual =
-                new(url: MakeChannelUrl("01"), name: "foo", programmes: new()
+                new(id: "01", name: "foo", programmes: new()
                 {
-                    new(url: MakeProgrammeUrl(ch: "01", m: "01"), name: "bar"),
-                    new(url: MakeProgrammeUrl(ch: "01", m: "02"), name: "baz"),
-                    new(url: MakeProgrammeUrl(ch: "01", m: "03"), name: "qux"),
-                    new(url: MakeProgrammeUrl(ch: "01", m: "04"), name: "quux")
+                    new(identity: (channelId: "01", programmeId: "01"), name: "bar"),
+                    new(identity: (channelId: "01", programmeId: "02"), name: "baz"),
+                    new(identity: (channelId: "01", programmeId: "03"), name: "qux"),
+                    new(identity: (channelId: "01", programmeId: "04"), name: "quux")
                 });
 
             // Act
@@ -436,9 +436,9 @@ namespace Rezaee.Data.Iranseda.UnitTests
         {
             // Arrange
             Channel one =
-                new(url: MakeChannelUrl("01"), name: "foo");
+                new(id: "01", name: "foo");
             Channel sameOne =
-                new(url: MakeChannelUrl("01"), name: "foo");
+                new(id: "01", name: "foo");
 
             // Act
             var result = one == sameOne;
@@ -452,7 +452,7 @@ namespace Rezaee.Data.Iranseda.UnitTests
         {
             // Arrange
             Channel notNull =
-                new(url: MakeChannelUrl("01"), name: "foo");
+                new(id: "01", name: "foo");
             Channel? @null = null;
 
             // Act
@@ -467,9 +467,9 @@ namespace Rezaee.Data.Iranseda.UnitTests
         {
             // Arrange
             Channel one =
-                new(url: MakeChannelUrl("01"), name: "foo");
+                new(id: "01", name: "foo");
             Channel notSameIdentity =
-                new(url: MakeChannelUrl("02"), name: "bar");
+                new(id: "02", name: "bar");
 
             // Act
             var result = one == notSameIdentity;
@@ -483,14 +483,14 @@ namespace Rezaee.Data.Iranseda.UnitTests
         {
             // Arrange
             Channel one =
-                new(url: MakeChannelUrl("01"), name: "foo", programmes: new()
+                new(id: "01", name: "foo", programmes: new()
                 {
-                    new Programme(url: MakeProgrammeUrl(ch: "01", m: "01"), name: "bar")
+                    new Programme(identity: (channelId: "01", programmeId: "01"), name: "bar")
                 });
             Channel sameOne =
-                new(url: MakeChannelUrl("01"), name: "foo", programmes: new()
+                new(id: "01", name: "foo", programmes: new()
                 {
-                    new Programme(url: MakeProgrammeUrl(ch: "01", m: "01"), name: "bar")
+                    new Programme(identity: (channelId: "01", programmeId: "01"), name: "bar")
                 });
 
             // Act
@@ -505,14 +505,14 @@ namespace Rezaee.Data.Iranseda.UnitTests
         {
             // Arrange
             Channel one =
-                new(url: MakeChannelUrl("01"), name: "foo", programmes: new()
+                new(id: "01", name: "foo", programmes: new()
                 {
-                    new Programme(url: MakeProgrammeUrl(ch: "01", m: "01"), name: "bar")
+                    new Programme(identity: (channelId: "01", programmeId: "01"), name: "bar")
                 });
             Channel notSameChilds =
-                new(url: MakeChannelUrl("01"), name: "foo", programmes: new()
+                new(id: "01", name: "foo", programmes: new()
                 {
-                    new Programme(url: MakeProgrammeUrl(ch: "01", m: "02"), name: "baz")
+                    new Programme(identity: (channelId: "01", programmeId: "02"), name: "baz")
                 });
 
             // Act
@@ -529,9 +529,9 @@ namespace Rezaee.Data.Iranseda.UnitTests
         {
             // Arrange
             Channel one =
-                new(url: MakeChannelUrl("01"), name: "foo");
+                new(id: "01", name: "foo");
             Channel sameOne =
-                new(url: MakeChannelUrl("01"), name: "foo");
+                new(id: "01", name: "foo");
 
             // Act
             var result = one != sameOne;
@@ -545,7 +545,7 @@ namespace Rezaee.Data.Iranseda.UnitTests
         {
             // Arrange
             Channel notNull =
-                new(url: MakeChannelUrl("01"), name: "foo");
+                new(id: "01", name: "foo");
             Channel? @null = null;
 
             // Act
@@ -560,9 +560,9 @@ namespace Rezaee.Data.Iranseda.UnitTests
         {
             // Arrange
             Channel one =
-                new(url: MakeChannelUrl("01"), name: "foo");
+                new(id: "01", name: "foo");
             Channel notSameIdentity =
-                new(url: MakeChannelUrl("02"), name: "bar");
+                new(id: "02", name: "bar");
 
             // Act
             var result = one != notSameIdentity;
@@ -576,14 +576,14 @@ namespace Rezaee.Data.Iranseda.UnitTests
         {
             // Arrange
             Channel one =
-                new(url: MakeChannelUrl("01"), name: "foo", programmes: new()
+                new(id: "01", name: "foo", programmes: new()
                 {
-                    new Programme(url: MakeProgrammeUrl(ch: "01", m: "01"), name: "bar")
+                    new Programme(identity: (channelId: "01", programmeId: "01"), name: "bar")
                 });
             Channel sameOne =
-                new(url: MakeChannelUrl("01"), name: "foo", programmes: new()
+                new(id: "01", name: "foo", programmes: new()
                 {
-                    new Programme(url: MakeProgrammeUrl(ch: "01", m: "01"), name: "bar")
+                    new Programme(identity: (channelId: "01", programmeId: "01"), name: "bar")
                 });
 
             // Act
@@ -598,14 +598,14 @@ namespace Rezaee.Data.Iranseda.UnitTests
         {
             // Arrange
             Channel one =
-                new(url: MakeChannelUrl("01"), name: "foo", programmes: new()
+                new(id: "01", name: "foo", programmes: new()
                 {
-                    new Programme(url: MakeProgrammeUrl(ch: "01", m: "01"), name: "bar")
+                    new Programme(identity: (channelId: "01", programmeId: "01"), name: "bar")
                 });
             Channel notSameChilds =
-                new(url: MakeChannelUrl("01"), name: "foo", programmes: new()
+                new(id: "01", name: "foo", programmes: new()
                 {
-                    new Programme(url: MakeProgrammeUrl(ch: "01", m: "02"), name: "baz")
+                    new Programme(identity: (channelId: "01", programmeId: "02"), name: "baz")
                 });
 
             // Act
@@ -622,9 +622,9 @@ namespace Rezaee.Data.Iranseda.UnitTests
         {
             // Arrange
             Channel one =
-                new(url: MakeChannelUrl("01"), name: "foo");
+                new(id: "01", name: "foo");
             Channel sameOne =
-                new(url: MakeChannelUrl("01"), name: "foo");
+                new(id: "01", name: "foo");
 
             // Act
             var result = one.Equals(sameOne);
@@ -638,7 +638,7 @@ namespace Rezaee.Data.Iranseda.UnitTests
         {
             // Arrange
             Channel notNull =
-                new(url: MakeChannelUrl("01"), name: "foo");
+                new(id: "01", name: "foo");
             Channel? @null = null;
 
             // Act
@@ -653,9 +653,9 @@ namespace Rezaee.Data.Iranseda.UnitTests
         {
             // Arrange
             Channel one =
-                new(url: MakeChannelUrl("01"), name: "foo");
+                new(id: "01", name: "foo");
             Channel notSameIdentity =
-                new(url: MakeChannelUrl("02"), name: "bar");
+                new(id: "02", name: "bar");
 
             // Act
             var result = one.Equals(notSameIdentity);
@@ -669,14 +669,14 @@ namespace Rezaee.Data.Iranseda.UnitTests
         {
             // Arrange
             Channel one =
-                new(url: MakeChannelUrl("01"), name: "foo", programmes: new()
+                new(id: "01", name: "foo", programmes: new()
                 {
-                    new Programme(url: MakeProgrammeUrl(ch: "01", m: "01"), name: "bar")
+                    new Programme(identity: (channelId: "01", programmeId: "01"), name: "bar")
                 });
             Channel sameOne =
-                new(url: MakeChannelUrl("01"), name: "foo", programmes: new()
+                new(id: "01", name: "foo", programmes: new()
                 {
-                    new Programme(url: MakeProgrammeUrl(ch: "01", m: "01"), name: "bar")
+                    new Programme(identity: (channelId: "01", programmeId: "01"), name: "bar")
                 });
 
             // Act
@@ -691,14 +691,14 @@ namespace Rezaee.Data.Iranseda.UnitTests
         {
             // Arrange
             Channel one =
-                new(url: MakeChannelUrl("01"), name: "foo", programmes: new()
+                new(id: "01", name: "foo", programmes: new()
                 {
-                    new Programme(url: MakeProgrammeUrl(ch: "01", m: "01"), name: "bar")
+                    new Programme(identity: (channelId: "01", programmeId: "01"), name: "bar")
                 });
             Channel notSameChilds =
-                new(url: MakeChannelUrl("01"), name: "foo", programmes: new()
+                new(id: "01", name: "foo", programmes: new()
                 {
-                    new Programme(url: MakeProgrammeUrl(ch: "01", m: "02"), name: "baz")
+                    new Programme(identity: (channelId: "01", programmeId: "02"), name: "baz")
                 });
 
             // Act
@@ -715,9 +715,9 @@ namespace Rezaee.Data.Iranseda.UnitTests
         {
             // Arrange
             Channel one =
-                new(url: MakeChannelUrl("01"), name: "foo");
+                new(id: "01", name: "foo");
             Channel sameOne =
-                new(url: MakeChannelUrl("01"), name: "foo");
+                new(id: "01", name: "foo");
 
             // Act
             var hashOne = one.GetHashCode();
@@ -732,9 +732,9 @@ namespace Rezaee.Data.Iranseda.UnitTests
         {
             // Arrange
             Channel one =
-                new(url: MakeChannelUrl("01"), name: "channel-01");
+                new(id: "01", name: "channel-01");
             Channel notSameIdentity =
-                new(url: MakeChannelUrl("02"), name: "channel-02");
+                new(id: "02", name: "channel-02");
 
             // Act
             var hashOne = one.GetHashCode();
@@ -749,14 +749,14 @@ namespace Rezaee.Data.Iranseda.UnitTests
         {
             // Arrange
             Channel one =
-                new(url: MakeChannelUrl("01"), name: "foo", programmes: new()
+                new(id: "01", name: "foo", programmes: new()
                 {
-                    new Programme(url: MakeProgrammeUrl(ch: "01", m: "01"), name: "bar")
+                    new Programme(identity: (channelId: "01", programmeId: "01"), name: "bar")
                 });
             Channel sameOne =
-                new(url: MakeChannelUrl("01"), name: "foo", programmes: new()
+                new(id: "01", name: "foo", programmes: new()
                 {
-                    new Programme(url: MakeProgrammeUrl(ch: "01", m: "01"), name: "bar")
+                    new Programme(identity: (channelId: "01", programmeId: "01"), name: "bar")
                 });
 
 
@@ -773,14 +773,14 @@ namespace Rezaee.Data.Iranseda.UnitTests
         {
             // Arrange
             Channel one =
-                new(url: MakeChannelUrl("01"), name: "foo", programmes: new()
+                new(id: "01", name: "foo", programmes: new()
                 {
-                    new Programme(url: MakeProgrammeUrl(ch: "01", m: "01"), name: "bar")
+                    new Programme(identity: (channelId: "01", programmeId: "01"), name: "bar")
                 });
             Channel notSameChilds =
-                new(url: MakeChannelUrl("01"), name: "foo", programmes: new()
+                new(id: "01", name: "foo", programmes: new()
                 {
-                    new Programme(url: MakeProgrammeUrl(ch: "01", m: "02"), name: "baz")
+                    new Programme(identity: (channelId: "01", programmeId: "02"), name: "baz")
                 });
 
             // Act

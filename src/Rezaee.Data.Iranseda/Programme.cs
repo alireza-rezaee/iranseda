@@ -23,34 +23,25 @@ namespace Rezaee.Data.Iranseda
     public class Programme : BaseCatalogue<Programme?>
     {
         #region Fields
+        private Channel? _channel;
         private DateTime _lastModified;
         #endregion
 
         #region Properties
         /// <summary>
-        /// A unique identifier that can be seen in the <see cref="Url">Url</see> of this programme's page in Iranseda.
+        /// TODO
         /// </summary>
-        public string Id
-        {
-            get
-            {
-                var queryString = HttpUtility.ParseQueryString(Url.Query);
-                if (queryString.AllKeys.Contains("m"))
-                    return queryString["m"];
-                else
-                    throw new Exception($"The {nameof(Url)} does not contain the \"m\" parameter. {nameof(Url)}: \"{Url}\"");
-            }
-        }
+        public (string ChannelId, string ProgrammeId) Id { get; set; }
 
         /// <summary>
         /// The name of the current programme.
         /// </summary>
-        public string Name { get; set; }
+        public string? Name { get; set; }
 
         /// <summary>
         /// The URL of the current programme.
         /// </summary>
-        public Uri Url { get; set; }
+        public Uri Url { get => UrlHelper.MakeProgrammeUrl(ch: Id.ChannelId, m: Id.ProgrammeId); }
 
         /// <summary>
         /// Episodes in the current programme.
@@ -75,41 +66,40 @@ namespace Rezaee.Data.Iranseda
         }
 
         /// <summary>
-        /// The <see cref="Id">Id</see> property of the current programme is used as its unique identifier.
-        /// </summary>
-        [JsonIgnore(Condition = JsonIgnoreCondition.Always)]
-        internal string Identity { get => Id; }
-
-        /// <summary>
         /// The <see cref="Iranseda.Channel">channel</see> that this programme belongs to.
         /// </summary>
         [JsonIgnore(Condition = JsonIgnoreCondition.Always)]
-        public Channel? Channel { get; set; }
+        public Channel Channel
+        {
+            get => _channel ?? new Channel(id: Id.ChannelId);
+            set => _channel = value;
+        }
         #endregion
 
         #region Constructors
         /// <summary>
-        /// Create a new <see cref="Programme"/> instance with <paramref name="url"/>,
-        /// <paramref name="name"/> and the optional desired <paramref name="episodes"/> in it.
+        /// TODO
         /// </summary>
-        /// <param name="url">The URL of this programme.</param>
-        /// <param name="name">The name of this programme.</param>
-        /// <param name="episodes">The desired episodes to be included in this programme.</param>
-        public Programme(Uri url, string name, List<Episode>? episodes = null)
-            => (Url, Name, Episodes) = (url, name, episodes);
+        /// <param name="identity"></param>
+        /// <param name="name"></param>
+        /// <param name="episodes"></param>
+        public Programme((string channelId, string programmeId) identity,
+            string? name = null,
+            List<Episode>? episodes = null)
+            => (Id, Name, Episodes) = ((ChannelId: identity.programmeId, ProgrammeId: identity.channelId), name, episodes);
 
         /// <summary>
-        /// Create a new <see cref="Programme"/> instance with <paramref name="url"/>,
-        /// <paramref name="name"/>, <paramref name="lastModified"/> and the optional desired
-        /// <paramref name="episodes"/> in it.
+        /// TODO
         /// </summary>
-        /// <param name="url">The URL of this programme.</param>
-        /// <param name="name">The name of this programme.</param>
-        /// <param name="lastModified">The date and time of the last changes applied to this programme.</param>
-        /// <param name="episodes">The desired episodes to be included in this programme.</param>
-        [JsonConstructor]
-        public Programme(Uri url, string name, DateTime lastModified, List<Episode>? episodes = null)
-            => (Url, Name, LastModified, Episodes) = (url, name, lastModified, episodes);
+        /// <param name="id"></param>
+        /// <param name="channel"></param>
+        /// <param name="name"></param>
+        /// <param name="episodes"></param>
+        public Programme(string id,
+            Channel channel,
+            string? name = null,
+            List<Episode>? episodes = null)
+            => (Id, Channel, Name, Episodes) = ((ChannelId: channel.Id, ProgrammeId: id), channel, name, episodes);
         #endregion
 
         #region Methods
@@ -170,9 +160,9 @@ namespace Rezaee.Data.Iranseda
                         else
                             throw new InvalidOperationException("Could not find one or more episode URL.");
 
-                        episodes.Add(new Episode(episodeUri, episodeName, episodeDate, DateTime.Now)
+                        episodes.Add(new Episode(id: episodeId, programme: this, name: episodeName, date: episodeDate)
                         {
-                            Programme = this
+                            LastModified = DateTime.Now
                         });
                     }
 
@@ -257,18 +247,21 @@ namespace Rezaee.Data.Iranseda
             ThrowHelper.ThrowArgumentNullExceptionIfNull(first, nameof(first));
             ThrowHelper.ThrowArgumentNullExceptionIfNull(second, nameof(second));
 
-            if (first.Identity != second.Identity)
-                throw new InvalidOperationException($"Merge Error. Both side of merge must have a same {nameof(first.Identity)}.");
+            if (first.Id != second.Id)
+                throw new InvalidOperationException($"Merge Error. Both side of merge must have a same {nameof(first.Id)}.");
 
             (var newer, var older) = first.LastModified >= second.LastModified ? (first, second) : (second, first);
 
             if (newer == older)
                 return newer;
 
-            List<Episode> mergedEpisodes = newer.Episodes.Union(older.Episodes).GroupBy(episode => episode.Identity)
+            List<Episode> mergedEpisodes = newer.Episodes.Union(older.Episodes).GroupBy(episode => episode.Id)
                 .Select(episodes => Episode.Merge(episodes)).OrderByDescending(episode => episode.Date).ToList();
 
-            return new Programme(url: newer.Url, name: newer.Name, lastModified: newer.LastModified, episodes: mergedEpisodes);
+            return new Programme(identity: newer.Id, name: newer.Name, episodes: mergedEpisodes)
+            {
+                LastModified = newer.LastModified
+            };
         }
 
         /// <summary>
@@ -288,7 +281,7 @@ namespace Rezaee.Data.Iranseda
                 case NullComparisonResult.OneSideOnly:
                     return false;
                 case NullComparisonResult.NoneNull:
-                    if (config.CheckIdentity && left!.Identity != right!.Identity)
+                    if (config.CheckIdentity && left!.Id != right!.Id)
                         return false;
 
                     if (config.CheckEpisodes)
@@ -350,7 +343,7 @@ namespace Rezaee.Data.Iranseda
 
         /// <inheritdoc/>
         public override int GetHashCode()
-            => (Identity, Episodes?.GetOrderIndependentHashCode()).GetHashCode();
+            => (Id, Episodes?.GetOrderIndependentHashCode()).GetHashCode();
         #endregion
     }
 }

@@ -145,9 +145,10 @@ namespace Rezaee.Data.Iranseda
                         else
                             throw new InvalidOperationException("Could not find one or more channel URL.");
 
-                        channelList.Add(new Channel(channelUri, channelName, DateTime.UtcNow)
+                        channelList.Add(new Channel(id: channelId, name: channelName)
                         {
-                            Catalogue = this
+                            Catalogue = this,
+                            LastModified = DateTime.Now
                         });
                     }
 
@@ -342,7 +343,7 @@ namespace Rezaee.Data.Iranseda
             if (newer == older)
                 return older;
 
-            List<Channel> mergedChannels = newer.Channels.Union(older.Channels).GroupBy(channel => channel.Identity)
+            List<Channel> mergedChannels = newer.Channels.Union(older.Channels).GroupBy(channel => channel.Id)
                 .Select(channels => Channel.Merge(channels)).OrderBy(channel => channel.Name).ToList();
 
             return new Catalogue(channels: mergedChannels, lastModified: newer.LastModified);

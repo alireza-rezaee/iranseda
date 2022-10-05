@@ -40,13 +40,13 @@ namespace Rezaee.Data.Iranseda.UnitTests
             // Arrange
             Catalogue one = new(channels: new()
             {
-                new Channel(url: MakeChannelUrl(ch: "01"), name: "foo"),
-                new Channel(url: MakeChannelUrl(ch: "02"), name: "bar")
+                new Channel(id: "01", name: "foo"),
+                new Channel(id: "02", name: "bar")
             }, lastModified: DateTime.Now);
             Catalogue sameOne = new(channels: new()
             {
-                new Channel(url: MakeChannelUrl(ch: "01"), name: "foo"),
-                new Channel(url: MakeChannelUrl(ch: "02"), name: "bar")
+                new Channel(id: "01", name: "foo"),
+                new Channel(id: "02", name: "bar")
             }, lastModified: DateTime.Now);
 
             // Act
@@ -62,13 +62,13 @@ namespace Rezaee.Data.Iranseda.UnitTests
             // Arrange
             Catalogue one = new(channels: new()
             {
-                new Channel(url: MakeChannelUrl(ch: "01"), name: "foo"),
-                new Channel(url: MakeChannelUrl(ch: "02"), name: "bar")
+                new Channel(id: "01", name: "foo"),
+                new Channel(id: "02", name: "bar")
             }, lastModified: DateTime.Now);
             Catalogue notSameChilds = new(channels: new()
             {
-                new Channel(url: MakeChannelUrl(ch: "03"), name: "baz"),
-                new Channel(url: MakeChannelUrl(ch: "04"), name: "qux")
+                new Channel(id: "03", name: "baz"),
+                new Channel(id: "04", name: "qux")
             }, lastModified: DateTime.Now);
 
             // Act
@@ -85,13 +85,13 @@ namespace Rezaee.Data.Iranseda.UnitTests
             CataloguesEqualityConfiguration trueCheckChannelsIdentity = new() { ChannelsConfig = new() { CheckIdentity = true } };
             Catalogue one = new(channels: new()
             {
-                new(url: MakeChannelUrl(ch: "01"), name: "foo"),
-                new(url: MakeChannelUrl(ch: "02"), name: "bar")
+                new(id: "01", name: "foo"),
+                new(id: "02", name: "bar")
             });
             Catalogue sameOne = new(channels: new()
             {
-                new(url: MakeChannelUrl(ch: "01"), name: "foo"),
-                new(url: MakeChannelUrl(ch: "02"), name: "bar")
+                new(id: "01", name: "foo"),
+                new(id: "02", name: "bar")
             });
 
             // Act
@@ -108,13 +108,13 @@ namespace Rezaee.Data.Iranseda.UnitTests
             CataloguesEqualityConfiguration trueCheckChannelsIdentity = new() { ChannelsConfig = new() { CheckIdentity = true } };
             Catalogue one = new(channels: new()
             {
-                new(url: MakeChannelUrl(ch: "01"), name: "foo"),
-                new(url: MakeChannelUrl(ch: "02"), name: "bar")
+                new(id: "01", name: "foo"),
+                new(id: "02", name: "bar")
             });
             Catalogue notSameChilds = new(channels: new()
             {
-                new(url: MakeChannelUrl(ch: "03"), name: "baz"),
-                new(url: MakeChannelUrl(ch: "04"), name: "qux")
+                new(id: "03", name: "baz"),
+                new(id: "04", name: "qux")
             });
 
             // Act
@@ -131,13 +131,13 @@ namespace Rezaee.Data.Iranseda.UnitTests
             CataloguesEqualityConfiguration falseCheckChannelsIdentity = new() { ChannelsConfig = new() { CheckIdentity = false } };
             Catalogue one = new(channels: new()
             {
-                new(url: MakeChannelUrl(ch: "01"), name: "foo"),
-                new(url: MakeChannelUrl(ch: "02"), name: "bar")
+                new(id: "01", name: "foo"),
+                new(id: "02", name: "bar")
             });
             Catalogue sameOne = new(channels: new()
             {
-                new(url: MakeChannelUrl(ch: "01"), name: "foo"),
-                new(url: MakeChannelUrl(ch: "02"), name: "bar")
+                new(id: "01", name: "foo"),
+                new(id: "02", name: "bar")
             });
 
             // Act
@@ -154,13 +154,13 @@ namespace Rezaee.Data.Iranseda.UnitTests
             CataloguesEqualityConfiguration falseCheckChannelsIdentity = new() { ChannelsConfig = new() { CheckIdentity = false } };
             Catalogue one = new(channels: new()
             {
-                new(url: MakeChannelUrl(ch: "01"), name: "foo"),
-                new(url: MakeChannelUrl(ch: "02"), name: "bar")
+                new(id: "01", name: "foo"),
+                new(id: "02", name: "bar")
             });
             Catalogue notSameChilds = new(channels: new()
             {
-                new(url: MakeChannelUrl(ch: "03"), name: "baz"),
-                new(url: MakeChannelUrl(ch: "04"), name: "qux")
+                new(id: "03", name: "baz"),
+                new(id: "04", name: "qux")
             });
 
             // Act
@@ -178,13 +178,13 @@ namespace Rezaee.Data.Iranseda.UnitTests
             // Arrange
             Catalogue one = new(channels: new()
             {
-                new(url: MakeChannelUrl(ch: "01"), name: "foo"),
-                new(url: MakeChannelUrl(ch: "02"), name: "bar")
+                new(id: "01", name: "foo"),
+                new(id: "02", name: "bar")
             });
             Catalogue sameOne = new(channels: new()
             {
-                new(url: MakeChannelUrl(ch: "01"), name: "foo"),
-                new(url: MakeChannelUrl(ch: "02"), name: "bar")
+                new(id: "01", name: "foo"),
+                new(id: "02", name: "bar")
             });
 
             // Act && Assert
@@ -197,20 +197,20 @@ namespace Rezaee.Data.Iranseda.UnitTests
             // Arrange
             Catalogue one = new(channels: new()
             {
-                new(url: MakeChannelUrl(ch: "01"), name: "foo"),
-                new(url: MakeChannelUrl(ch: "02"), name: "bar")
+                new(id: "01", name: "foo"),
+                new(id: "02", name: "bar")
             });
             Catalogue notSameChilds = new(channels: new()
             {
-                new(url: MakeChannelUrl(ch: "03"), name: "baz"),
-                new(url: MakeChannelUrl(ch: "04"), name: "qux")
+                new(id: "03", name: "baz"),
+                new(id: "04", name: "qux")
             });
             Catalogue mergeActual = new(channels: new()
             {
-                new(url: MakeChannelUrl(ch: "01"), name: "foo"),
-                new(url: MakeChannelUrl(ch: "02"), name: "bar"),
-                new(url: MakeChannelUrl(ch: "03"), name: "baz"),
-                new(url: MakeChannelUrl(ch: "04"), name: "qux")
+                new(id: "01", name: "foo"),
+                new(id: "02", name: "bar"),
+                new(id: "03", name: "baz"),
+                new(id: "04", name: "qux")
             });
 
             // Act
@@ -258,13 +258,13 @@ namespace Rezaee.Data.Iranseda.UnitTests
             // Arrange
             Catalogue one = new(channels: new()
             {
-                new Channel(url: MakeChannelUrl(ch: "01"), name: "foo"),
-                new Channel(url: MakeChannelUrl(ch: "02"), name: "bar")
+                new Channel(id: "01", name: "foo"),
+                new Channel(id: "02", name: "bar")
             }, lastModified: DateTime.Now);
             Catalogue sameOne = new(channels: new()
             {
-                new Channel(url: MakeChannelUrl(ch: "01"), name: "foo"),
-                new Channel(url: MakeChannelUrl(ch: "02"), name: "bar")
+                new Channel(id: "01", name: "foo"),
+                new Channel(id: "02", name: "bar")
             }, lastModified: DateTime.Now);
 
             // Act
@@ -280,13 +280,13 @@ namespace Rezaee.Data.Iranseda.UnitTests
             // Arrange
             Catalogue one = new(channels: new()
             {
-                new Channel(url: MakeChannelUrl(ch: "01"), name: "foo"),
-                new Channel(url: MakeChannelUrl(ch: "02"), name: "bar")
+                new Channel(id: "01", name: "foo"),
+                new Channel(id: "02", name: "bar")
             }, lastModified: DateTime.Now);
             Catalogue notSameChilds = new(channels: new()
             {
-                new Channel(url: MakeChannelUrl(ch: "03"), name: "baz"),
-                new Channel(url: MakeChannelUrl(ch: "04"), name: "qux")
+                new Channel(id: "03", name: "baz"),
+                new Channel(id: "04", name: "qux")
             }, lastModified: DateTime.Now);
 
             // Act
@@ -332,13 +332,13 @@ namespace Rezaee.Data.Iranseda.UnitTests
             // Arrange
             Catalogue one = new(channels: new()
             {
-                new Channel(url: MakeChannelUrl(ch: "01"), name: "foo"),
-                new Channel(url: MakeChannelUrl(ch: "02"), name: "bar")
+                new Channel(id: "01", name: "foo"),
+                new Channel(id: "02", name: "bar")
             }, lastModified: DateTime.Now);
             Catalogue sameOne = new(channels: new()
             {
-                new Channel(url: MakeChannelUrl(ch: "01"), name: "foo"),
-                new Channel(url: MakeChannelUrl(ch: "02"), name: "bar")
+                new Channel(id: "01", name: "foo"),
+                new Channel(id: "02", name: "bar")
             }, lastModified: DateTime.Now);
 
             // Act
@@ -354,13 +354,13 @@ namespace Rezaee.Data.Iranseda.UnitTests
             // Arrange
             Catalogue one = new(channels: new()
             {
-                new Channel(url: MakeChannelUrl(ch: "01"), name: "foo"),
-                new Channel(url: MakeChannelUrl(ch: "02"), name: "bar")
+                new Channel(id: "01", name: "foo"),
+                new Channel(id: "02", name: "bar")
             }, lastModified: DateTime.Now);
             Catalogue notSameChilds = new(channels: new()
             {
-                new Channel(url: MakeChannelUrl(ch: "03"), name: "baz"),
-                new Channel(url: MakeChannelUrl(ch: "04"), name: "qux")
+                new Channel(id: "03", name: "baz"),
+                new Channel(id: "04", name: "qux")
             }, lastModified: DateTime.Now);
 
             // Act
@@ -406,13 +406,13 @@ namespace Rezaee.Data.Iranseda.UnitTests
             // Arrange
             Catalogue one = new(channels: new()
             {
-                new Channel(url: MakeChannelUrl(ch: "01"), name: "foo"),
-                new Channel(url: MakeChannelUrl(ch: "02"), name: "bar")
+                new Channel(id: "01", name: "foo"),
+                new Channel(id: "02", name: "bar")
             }, lastModified: DateTime.Now);
             Catalogue sameOne = new(channels: new()
             {
-                new Channel(url: MakeChannelUrl(ch: "01"), name: "foo"),
-                new Channel(url: MakeChannelUrl(ch: "02"), name: "bar")
+                new Channel(id: "01", name: "foo"),
+                new Channel(id: "02", name: "bar")
             }, lastModified: DateTime.Now);
 
             // Act
@@ -428,13 +428,13 @@ namespace Rezaee.Data.Iranseda.UnitTests
             // Arrange
             Catalogue one = new(channels: new()
             {
-                new Channel(url: MakeChannelUrl(ch: "01"), name: "foo"),
-                new Channel(url: MakeChannelUrl(ch: "02"), name: "bar")
+                new Channel(id: "01", name: "foo"),
+                new Channel(id: "02", name: "bar")
             }, lastModified: DateTime.Now);
             Catalogue notSameChilds = new(channels: new()
             {
-                new Channel(url: MakeChannelUrl(ch: "03"), name: "baz"),
-                new Channel(url: MakeChannelUrl(ch: "04"), name: "qux")
+                new Channel(id: "03", name: "baz"),
+                new Channel(id: "04", name: "qux")
             }, lastModified: DateTime.Now);
 
             // Act
@@ -467,13 +467,13 @@ namespace Rezaee.Data.Iranseda.UnitTests
             // Arrange
             Catalogue one = new(channels: new()
             {
-                new Channel(url: MakeChannelUrl(ch: "01"), name: "foo"),
-                new Channel(url: MakeChannelUrl(ch: "02"), name: "bar")
+                new Channel(id: "01", name: "foo"),
+                new Channel(id: "02", name: "bar")
             }, lastModified: DateTime.Now);
             Catalogue sameOne = new(channels: new()
             {
-                new Channel(url: MakeChannelUrl(ch: "01"), name: "foo"),
-                new Channel(url: MakeChannelUrl(ch: "02"), name: "bar")
+                new Channel(id: "01", name: "foo"),
+                new Channel(id: "02", name: "bar")
             }, lastModified: DateTime.Now);
 
 
@@ -491,13 +491,13 @@ namespace Rezaee.Data.Iranseda.UnitTests
             // Arrange
             Catalogue one = new(channels: new()
             {
-                new Channel(url: MakeChannelUrl(ch: "01"), name: "foo"),
-                new Channel(url: MakeChannelUrl(ch: "02"), name: "bar")
+                new Channel(id: "01", name: "foo"),
+                new Channel(id: "02", name: "bar")
             }, lastModified: DateTime.Now);
             Catalogue notSameChilds = new(channels: new()
             {
-                new Channel(url: MakeChannelUrl(ch: "03"), name: "baz"),
-                new Channel(url: MakeChannelUrl(ch: "04"), name: "qux")
+                new Channel(id: "03", name: "baz"),
+                new Channel(id: "04", name: "qux")
             }, lastModified: DateTime.Now);
 
             // Act

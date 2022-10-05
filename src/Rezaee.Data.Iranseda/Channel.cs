@@ -26,29 +26,19 @@ namespace Rezaee.Data.Iranseda
 
         #region Properties
         /// <summary>
-        /// A unique identifier that can be seen in the <see cref="Url">Url</see> of this channel's page in Iranseda.
+        /// TODO
         /// </summary>
-        public string Id
-        {
-            get
-            {
-                var queryString = HttpUtility.ParseQueryString(Url.Query);
-                if (queryString.AllKeys.Contains("ch"))
-                    return queryString["ch"];
-                else
-                    throw new Exception($"The {nameof(Url)} does not contain the \"ch\" parameter. {nameof(Url)}: \"{Url}\"");
-            }
-        }
+        public string Id { get; set; }
 
         /// <summary>
         /// The name of the current channel.
         /// </summary>
-        public string Name { get; set; }
+        public string? Name { get; set; }
 
         /// <summary>
         /// The URL of the current channel.
         /// </summary>
-        public Uri Url { get; set; }
+        public Uri Url { get => UrlHelper.MakeChannelUrl(Id); }
 
         /// <summary>
         /// The URL of the list page of all programmes within the current channel.
@@ -81,12 +71,6 @@ namespace Rezaee.Data.Iranseda
         }
 
         /// <summary>
-        /// The <see cref="Id">Id</see> property of the current channel is used as its unique identifier.
-        /// </summary>
-        [JsonIgnore(Condition = JsonIgnoreCondition.Always)]
-        public string Identity { get => Id; }
-
-        /// <summary>
         /// The <see cref="Iranseda.Catalogue">catalogue</see> that this channel belongs to.
         /// </summary>
         [JsonIgnore(Condition = JsonIgnoreCondition.Always)]
@@ -95,27 +79,13 @@ namespace Rezaee.Data.Iranseda
 
         #region Constructors
         /// <summary>
-        /// Create a new <see cref="Channel"/> instance with <paramref name="url"/>,
-        /// <paramref name="name"/> and the optional desired <paramref name="programmes"/> in it.
+        /// TODO
         /// </summary>
-        /// <param name="url">The URL of this channel.</param>
-        /// <param name="name">The name of this channel.</param>
-        /// <param name="programmes">The desired programmes to be included in this channel.</param>
-        public Channel(Uri url, string name, List<Programme>? programmes = null)
-            => (Name, Url, LastModified, Programmes) = (name, url, DateTime.Now, programmes);
-
-        /// <summary>
-        /// Create a new <see cref="Channel"/> instance with <paramref name="url"/>,
-        /// <paramref name="name"/>, <paramref name="lastModified"/> and the optional desired
-        /// <paramref name="programmes"/> in it.
-        /// </summary>
-        /// <param name="url">The URL of this channel.</param>
-        /// <param name="name">The name of this channel.</param>
-        /// <param name="lastModified">The date and time of the last changes applied to this channel.</param>
-        /// <param name="programmes">The desired programmes to be included in this channel.</param>
-        [JsonConstructor]
-        public Channel(Uri url, string name, DateTime lastModified, List<Programme>? programmes = null)
-            => (Name, Url, LastModified, Programmes) = (name, url, lastModified, programmes);
+        /// <param name="id"></param>
+        /// <param name="name"></param>
+        /// <param name="programmes"></param>
+        public Channel(string id, string? name = null, List<Programme>? programmes = null)
+            => (Id, Name, Programmes) = (id, name, programmes);
         #endregion
 
         #region Methods
@@ -171,9 +141,9 @@ namespace Rezaee.Data.Iranseda
                         else
                             throw new InvalidOperationException("Could not find one or more programme URL.");
 
-                        programmes.Add(new Programme(programmeUri, programmeName, DateTime.Now)
+                        programmes.Add(new Programme(id: programmeId, channel: this, name: programmeName)
                         {
-                            Channel = this,
+                            LastModified = DateTime.Now
                         });
                     }
 
@@ -264,18 +234,21 @@ namespace Rezaee.Data.Iranseda
             ThrowHelper.ThrowArgumentNullExceptionIfNull(first, nameof(first));
             ThrowHelper.ThrowArgumentNullExceptionIfNull(second, nameof(second));
 
-            if (first.Identity != second.Identity)
-                throw new InvalidOperationException($"Merge Error. Both side of merge must have a same {nameof(first.Identity)}.");
+            if (first.Id != second.Id)
+                throw new InvalidOperationException($"Merge Error. Both side of merge must have a same {nameof(first.Id)}.");
 
             (var newer, var older) = first.LastModified >= second.LastModified ? (first, second) : (second, first);
 
             if (newer == older)
                 return newer;
 
-            List<Programme> mergedProgrammes = newer.Programmes.Union(older.Programmes).GroupBy(programme => programme.Identity)
+            List<Programme> mergedProgrammes = newer.Programmes.Union(older.Programmes).GroupBy(programme => programme.Id)
                 .Select(programmes => Programme.Merge(programmes)).OrderBy(programme => programme.Name).ToList();
 
-            return new Channel(url: newer.Url, name: newer.Name, lastModified: newer.LastModified, programmes: mergedProgrammes);
+            return new Channel(id: newer.Id, name: newer.Name, programmes: mergedProgrammes)
+            {
+                LastModified = newer.LastModified
+            };
         }
 
         /// <summary>
@@ -297,7 +270,7 @@ namespace Rezaee.Data.Iranseda
                 case NullComparisonResult.OneSideOnly:
                     return false;
                 case NullComparisonResult.NoneNull:
-                    if (config.CheckIdentity && left!.Identity != right!.Identity)
+                    if (config.CheckIdentity && left!.Id != right!.Id)
                         return false;
 
                     if (config.CheckProgrammes)
@@ -357,7 +330,7 @@ namespace Rezaee.Data.Iranseda
 
         /// <inheritdoc/>
         public override int GetHashCode()
-            => (Identity, Programmes?.GetOrderIndependentHashCode()).GetHashCode();
+            => (Id, Programmes?.GetOrderIndependentHashCode()).GetHashCode();
         #endregion
     }
 }

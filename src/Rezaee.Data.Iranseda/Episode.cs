@@ -12,7 +12,6 @@ using System.Net;
 using System.Net.Http;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
-using System.Web;
 
 namespace Rezaee.Data.Iranseda
 {
@@ -22,40 +21,31 @@ namespace Rezaee.Data.Iranseda
     public class Episode : BaseCatalogue<Episode?>
     {
         #region Fields
+        private Channel? _channel;
         private DateTime _lastModified;
         #endregion
 
         #region Properties
         /// <summary>
-        /// A unique identifier that can be seen in the <see cref="Url">Url</see> of this episode's page in Iranseda.
+        /// TODO
         /// </summary>
-        public string Id
-        {
-            get
-            {
-                var queryString = HttpUtility.ParseQueryString(Url.Query);
-                if (queryString.AllKeys.Contains("e"))
-                    return queryString["e"];
-                else
-                    throw new Exception($"The {nameof(Url)} does not contain the \"e\" parameter. {nameof(Url)}: \"{Url}\"");
-            }
-        }
+        public (string ChannelId, string EpisodeId) Id { get; set; }
 
         /// <summary>
         /// The name of the current episode.
         /// </summary>
-        public string Name { get; set; }
+        public string? Name { get; set; }
 
         /// <summary>
         /// The date when this episode is recorded.
         /// </summary>
         [JsonConverter(typeof(DateLocalJsonConverter))]
-        public DateTime Date { get; set; }
+        public DateTime? Date { get; set; }
 
         /// <summary>
         /// The URL of the current episode.
         /// </summary>
-        public Uri Url { get; set; }
+        public Uri Url { get => UrlHelper.MakeEpisodeUrl(ch: Id.ChannelId, e: Id.EpisodeId); }
 
         /// <summary>
         /// Partitions in the current episode.
@@ -80,44 +70,42 @@ namespace Rezaee.Data.Iranseda
         }
 
         /// <summary>
-        /// The <see cref="Url">Url</see> property of the current episode is used as its unique identifier.
-        /// </summary>
-        [JsonIgnore(Condition = JsonIgnoreCondition.Always)]
-        internal Uri Identity { get => Url; }
-
-        /// <summary>
         /// The <see cref="Iranseda.Programme">programme</see> that this episode belongs to.
         /// </summary>
         [JsonIgnore(Condition = JsonIgnoreCondition.Always)]
         public Programme? Programme { get; set; }
+
+        /// <summary>
+        /// TODO
+        /// </summary>
+        [JsonIgnore(Condition = JsonIgnoreCondition.Always)]
+        public Channel? Channel
+        {
+            get => _channel ?? new Channel(id: Id.ChannelId);
+            set => _channel = value;
+        }
         #endregion
 
         #region Constructors
         /// <summary>
-        /// Create a new <see cref="Episode"/> instance with <paramref name="url"/>,
-        /// <paramref name="name"/>, <paramref name="date"/>, and the optional desired
-        /// <paramref name="partitions"/> in it.
+        /// TODO
         /// </summary>
-        /// <param name="url">The URL of this episode.</param>
-        /// <param name="name">The name of this episode.</param>
-        /// <param name="date">The broadcast date of this episode.</param>
-        /// <param name="partitions">The desired partitions to be included in this episode.</param>
-        public Episode(Uri url, string name, DateTime date, List<Partition>? partitions = null)
-            => (Url, Name, Date, Partitions) = (url, name, date, partitions);
+        /// <param name="identity"></param>
+        /// <param name="name"></param>
+        /// <param name="date"></param>
+        /// <param name="partitions"></param>
+        public Episode((string channelId, string episodeId) identity,
+            string? name = null,
+            DateTime? date = null,
+            List<Partition>? partitions = null)
+            => (Id, Name, Date, Partitions) = ((identity.channelId, identity.episodeId), name, date, partitions);
 
-        /// <summary>
-        /// Create a new <see cref="Episode"/> instance with <paramref name="url"/>,
-        /// <paramref name="name"/>, <paramref name="date"/>, <paramref name="lastModified"/>
-        /// and the optional desired <paramref name="partitions"/> in it.
-        /// </summary>
-        /// <param name="url">The URL of this episode.</param>
-        /// <param name="name">The name of this episode.</param>
-        /// <param name="date">The broadcast date of this episode.</param>
-        /// <param name="lastModified">The date and time of the last changes applied to this episode.</param>
-        /// <param name="partitions">The desired partitions to be included in this episode.</param>
-        [JsonConstructor]
-        public Episode(Uri url, string name, DateTime date, DateTime lastModified, List<Partition>? partitions = null)
-            => (Url, Name, Date, LastModified, Partitions) = (url, name, date, lastModified, partitions);
+        public Episode(string id,
+            Programme programme,
+            string? name = null,
+            DateTime? date = null,
+            List<Partition>? partitions = null)
+            => (Id, Name, Date, Partitions) = ((ChannelId: programme.Id.ChannelId, EpisodeId: id), name, date, partitions);
         #endregion
 
         #region Methods
@@ -257,8 +245,8 @@ namespace Rezaee.Data.Iranseda
             ThrowHelper.ThrowArgumentNullExceptionIfNull(first, nameof(first));
             ThrowHelper.ThrowArgumentNullExceptionIfNull(second, nameof(second));
 
-            if (first.Identity != second.Identity)
-                throw new InvalidOperationException($"Merge Error. Both side of merge must have a same {nameof(first.Identity)}.");
+            if (first.Id != second.Id)
+                throw new InvalidOperationException($"Merge Error. Both side of merge must have a same {nameof(first.Id)}.");
 
             (var newer, var older) = first.LastModified >= second.LastModified ? (first, second) : (second, first);
 
@@ -268,7 +256,7 @@ namespace Rezaee.Data.Iranseda
             List<Partition> mergedPartitions = newer.Partitions.Union(older.Partitions).GroupBy(partition => partition.Identity)
                 .Select(partitions => Partition.Merge(partitions)).OrderBy(partition => partition.Time).ToList();
 
-            return new Episode(newer.Url, newer.Name, newer.Date, partitions: mergedPartitions);
+            return new Episode(identity: newer.Id, name: newer.Name, date: newer.Date, partitions: mergedPartitions);
         }
 
         /// <summary>
@@ -288,7 +276,7 @@ namespace Rezaee.Data.Iranseda
                 case NullComparisonResult.OneSideOnly:
                     return false;
                 case NullComparisonResult.NoneNull:
-                    if (config.CheckIdentity && left!.Identity != right!.Identity)
+                    if (config.CheckIdentity && left!.Id != right!.Id)
                         return false;
 
                     if (config.CheckPartitions)
@@ -348,7 +336,7 @@ namespace Rezaee.Data.Iranseda
 
         /// <inheritdoc/>
         public override int GetHashCode()
-            => (Identity, Partitions?.GetOrderIndependentHashCode()).GetHashCode();
+            => (Id, Partitions?.GetOrderIndependentHashCode()).GetHashCode();
         #endregion
     }
 }
