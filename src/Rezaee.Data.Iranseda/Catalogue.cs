@@ -193,6 +193,7 @@ namespace Rezaee.Data.Iranseda
             await Partition.DownloadPartitionsAsync(
                 partitions: partitions,
                 directory: directory,
+                relativeToPath: Path.GetDirectoryName(cataloguePath),
                 skipIfExists: skipIfExists,
                 preferredMirror: preferredMirror,
                 client: client);

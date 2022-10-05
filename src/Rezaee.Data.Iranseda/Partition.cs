@@ -100,6 +100,7 @@ namespace Rezaee.Data.Iranseda
         /// <param name="filename">The desired file name to overwrite the default name.</param>
         /// <param name="client">Use to pass the predefined <see cref="HttpClient"/>.</param>
         public async Task DownloadAsync(string directory,
+            string? relativeToPath = null,
             bool skipIfExists = true,
             Uri? preferredMirror = null,
             string? filename = null,
@@ -108,6 +109,7 @@ namespace Rezaee.Data.Iranseda
             await DownloadPartitionAsync(
                 partition: this,
                 directory: directory,
+                relativeToPath: relativeToPath ?? directory,
                 skipIfExists: skipIfExists,
                 preferredMirror: preferredMirror,
                 filename: filename,
@@ -125,6 +127,7 @@ namespace Rezaee.Data.Iranseda
         /// <param name="client">Use to pass the predefined <see cref="HttpClient"/>.</param>
         public static async Task DownloadPartitionsAsync(IEnumerable<Partition> partitions,
             string directory,
+            string? relativeToPath = null,
             bool skipIfExists = true,
             Uri? preferredMirror = null,
             int limit = 10,
@@ -137,7 +140,8 @@ namespace Rezaee.Data.Iranseda
                 await semaphore.WaitAsync().ConfigureAwait(false);
                 try
                 {
-                    await DownloadPartitionAsync(partition, directory, skipIfExists, preferredMirror, client: client);
+                    relativeToPath ??= directory;
+                    await DownloadPartitionAsync(partition, directory, relativeToPath, skipIfExists, preferredMirror, client: client);
                 }
                 finally
                 {
@@ -163,6 +167,7 @@ namespace Rezaee.Data.Iranseda
         /// <exception cref="Exception"></exception>
         private static async Task<Download> DownloadPartitionAsync(Partition partition,
             string directory,
+            string? relativeToPath = null,
             bool skipIfExists = true,
             Uri? preferredMirror = null,
             string? filename = null,
@@ -220,7 +225,8 @@ namespace Rezaee.Data.Iranseda
                     using var fs = new FileStream(filePath, FileMode.CreateNew);
                     await response.Content.CopyToAsync(fs);
 
-                    string fileRelativePath = Path.GetRelativePath(directory, filePath);
+                    relativeToPath ??= directory;
+                    string fileRelativePath = Path.GetRelativePath(relativeToPath, filePath);
                     return partition.Download = new Download(url: mirror, path: fileRelativePath, lastModified: DateTime.Now);
                 }
                 catch (Exception)
