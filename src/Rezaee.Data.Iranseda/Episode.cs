@@ -247,7 +247,7 @@ namespace Rezaee.Data.Iranseda
 
                     return parts;
                 }
-                catch (Exception)
+                catch (HtmlParseException)
                 {
                     continue;
                 }

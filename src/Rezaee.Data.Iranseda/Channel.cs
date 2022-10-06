@@ -179,7 +179,7 @@ namespace Rezaee.Data.Iranseda
 
                     return programmes;
                 }
-                catch (Exception)
+                catch (HtmlParseException)
                 {
                     continue;
                 }
