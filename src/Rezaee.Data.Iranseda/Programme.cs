@@ -119,6 +119,22 @@ namespace Rezaee.Data.Iranseda
         /// <summary>
         /// TODO
         /// </summary>
+        /// <param name="options"></param>
+        /// <exception cref="Exception"></exception>
+        public void LoadProperties(LoadOptions? options = null)
+        {
+            var loaded = Channel.LoadProgramme(p => p.Identity == Identity);
+            if (loaded is null)
+                throw new Exception($"An error occurred while loading {nameof(Programme)} properties." +
+                    $" ({nameof(Programme)} Id: {Identity.Id}, {nameof(Iranseda.Channel)} Id: {Identity.ChannelId})");
+
+            // Load properties (except Episodes)
+            Name = loaded.Name;
+        }
+
+        /// <summary>
+        /// TODO
+        /// </summary>
         /// <param name="predicate"></param>
         /// <param name="options"></param>
         /// <param name="isRecursive"></param>

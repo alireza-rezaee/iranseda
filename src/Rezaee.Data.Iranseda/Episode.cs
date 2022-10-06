@@ -79,7 +79,7 @@ namespace Rezaee.Data.Iranseda
         /// TODO
         /// </summary>
         [JsonIgnore(Condition = JsonIgnoreCondition.Always)]
-        public Channel? Channel
+        public Channel Channel
         {
             get => _channel ?? new Channel(id: Identity.ChannelId);
             set => _channel = value;
@@ -123,6 +123,52 @@ namespace Rezaee.Data.Iranseda
         #endregion
 
         #region Methods
+        /// <summary>
+        /// TODO
+        /// </summary>
+        /// <param name="options"></param>
+        /// <exception cref="Exception"></exception>
+        public void LoadProperties(LoadOptions? options = null)
+        {
+            options ??= new LoadOptions();
+
+            // Load and Set Programme property, if not already there
+            if (Programme is null)
+            {
+                HtmlWeb htmlWeb = new HtmlWeb()
+                {
+                    AutoDetectEncoding = false,
+                    OverrideEncoding = System.Text.Encoding.UTF8
+                };
+
+                HtmlDocument htmlDoc = htmlWeb.Load(Url.AbsoluteUri, "GET", options.Proxy, options.Credential);
+
+                var programmeId = htmlDoc.DocumentNode
+                            .SelectSingleNode("a[contains(@class, 'all-episodes')]")
+                            .Attributes["href"].Value;
+
+                if (string.IsNullOrEmpty(programmeId))
+                    throw new Exception($"An error occurred while loading {nameof(Episode)} properties:"
+                        + $" Could not find the parent {nameof(Iranseda.Programme)} of this {nameof(Episode)}."
+                        + $" ({nameof(Episode)} Id: {Identity.Id}, {nameof(Iranseda.Channel)} Id: {Identity.ChannelId})");
+
+                Programme = Channel.LoadProgramme(p => p.Identity == new Identity(channelId: Channel.Id, id: programmeId));
+
+                if (Programme is null)
+                    throw new Exception($"An error occurred while loading {nameof(Episode)} properties:"
+                        + $" Could not load the parent {nameof(Iranseda.Programme)} of this {nameof(Episode)}."
+                        + $" ({nameof(Programme)} Id: {Programme!.Identity.Id}, {nameof(Iranseda.Channel)} Id: {Programme!.Identity.ChannelId})");
+            }
+
+            var loaded = Programme.LoadEpisode(e => e.Identity == Identity);
+            if (loaded is null)
+                throw new Exception($"An error occurred while loading {nameof(Episode)} properties." +
+                    $" ({nameof(Episode)} Id: {Identity.Id}, {nameof(Iranseda.Channel)} Id: {Identity.ChannelId})");
+
+            // Load other properties (except Partitions)
+            (Name, Date) = (loaded.Name, loaded.Date);
+        }
+
         /// <summary>
         /// TODO
         /// </summary>

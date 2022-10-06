@@ -84,6 +84,22 @@ namespace Rezaee.Data.Iranseda
         /// <summary>
         /// TODO
         /// </summary>
+        /// <param name="options"></param>
+        /// <exception cref="Exception"></exception>
+        public void LoadProperties(LoadOptions? options = null)
+        {
+            var loaded = new Catalogue().LoadChannel(c => c.Id == Id);
+            if (loaded is null)
+                throw new Exception($"An error occurred while loading {nameof(Channel)} properties." +
+                    $" ({nameof(Channel)} Id: {Id})");
+
+            // Load properties (except Programmes)
+            Name = loaded.Name;
+        }
+
+        /// <summary>
+        /// TODO
+        /// </summary>
         /// <param name="predicate"></param>
         /// <param name="options"></param>
         /// <param name="isRecursive"></param>
