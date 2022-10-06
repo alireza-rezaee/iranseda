@@ -96,6 +96,28 @@ namespace Rezaee.Data.Iranseda
         /// <summary>
         /// TODO
         /// </summary>
+        /// <param name="predicate"></param>
+        /// <param name="options"></param>
+        /// <param name="isRecursive"></param>
+        /// <returns></returns>
+        /// <exception cref="NotImplementedException"></exception>
+        public Channel? LoadChannel(Func<Channel, bool> predicate, LoadOptions? options = null, bool isRecursive = false)
+            => LoadChannels(predicate, options, isRecursive).FirstOrDefault();
+
+        /// <summary>
+        /// TODO
+        /// </summary>
+        /// <param name="predicate"></param>
+        /// <param name="options"></param>
+        /// <param name="isRecursive"></param>
+        /// <returns></returns>
+        /// <exception cref="InvalidOperationException"></exception>
+        public IEnumerable<Channel>? LoadChannels(Func<Channel, bool> predicate, LoadOptions? options = null, bool isRecursive = false)
+            => LoadChannels(options, isRecursive).Where(predicate);
+
+        /// <summary>
+        /// TODO
+        /// </summary>
         /// <param name="options"></param>
         /// <param name="isRecursive"></param>
         /// <returns></returns>

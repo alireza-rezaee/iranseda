@@ -84,6 +84,27 @@ namespace Rezaee.Data.Iranseda
         /// <summary>
         /// TODO
         /// </summary>
+        /// <param name="predicate"></param>
+        /// <param name="options"></param>
+        /// <param name="isRecursive"></param>
+        /// <returns></returns>
+        /// <exception cref="NotImplementedException"></exception>
+        public Programme? LoadProgramme(Func<Programme, bool> predicate, LoadOptions? options = null, bool isRecursive = false)
+            => LoadProgrammes(predicate, options, isRecursive).FirstOrDefault();
+
+        /// <summary>
+        /// TODO
+        /// </summary>
+        /// <param name="predicate"></param>
+        /// <param name="options"></param>
+        /// <param name="isRecursive"></param>
+        /// <returns></returns>
+        public IEnumerable<Programme>? LoadProgrammes(Func<Programme, bool> predicate, LoadOptions? options = null, bool isRecursive = false)
+            => LoadProgrammes(options, isRecursive).Where(predicate);
+
+        /// <summary>
+        /// TODO
+        /// </summary>
         /// <param name="options"></param>
         /// <param name="isRecursive"></param>
         /// <returns></returns>

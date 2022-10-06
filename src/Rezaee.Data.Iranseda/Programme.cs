@@ -119,6 +119,27 @@ namespace Rezaee.Data.Iranseda
         /// <summary>
         /// TODO
         /// </summary>
+        /// <param name="predicate"></param>
+        /// <param name="options"></param>
+        /// <param name="isRecursive"></param>
+        /// <returns></returns>
+        /// <exception cref="NotImplementedException"></exception>
+        public Episode? LoadEpisode(Func<Episode, bool> predicate, LoadOptions? options = null, bool isRecursive = false)
+            => LoadEpisodes(predicate, options, isRecursive).FirstOrDefault();
+
+        /// <summary>
+        /// TODO
+        /// </summary>
+        /// <param name="predicate"></param>
+        /// <param name="options"></param>
+        /// <param name="isRecursive"></param>
+        /// <returns></returns>
+        public IEnumerable<Episode>? LoadEpisodes(Func<Episode, bool> predicate, LoadOptions? options = null, bool isRecursive = false)
+            => LoadEpisodes(options, isRecursive).Where(predicate);
+
+        /// <summary>
+        /// TODO
+        /// </summary>
         /// <param name="options"></param>
         /// <param name="isRecursive"></param>
         /// <returns></returns>

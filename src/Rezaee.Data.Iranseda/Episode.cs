@@ -126,6 +126,25 @@ namespace Rezaee.Data.Iranseda
         /// <summary>
         /// TODO
         /// </summary>
+        /// <param name="predicate"></param>
+        /// <param name="options"></param>
+        /// <returns></returns>
+        /// <exception cref="NotImplementedException"></exception>
+        public Partition? LoadPartition(Func<Partition, bool> predicate, LoadOptions? options = null)
+            => LoadPartitions(predicate, options).FirstOrDefault();
+
+        /// <summary>
+        /// TODO
+        /// </summary>
+        /// <param name="predicate"></param>
+        /// <param name="options"></param>
+        /// <returns></returns>
+        public IEnumerable<Partition>? LoadPartitions(Func<Partition, bool> predicate, LoadOptions? options = null)
+            => LoadPartitions(options).Where(predicate);
+
+        /// <summary>
+        /// TODO
+        /// </summary>
         /// <param name="options"></param>
         /// <returns></returns>
         public List<Partition>? LoadPartitions(LoadOptions? options = null)
